@@ -9,7 +9,6 @@
 #+MACRO: youtube @@html:{{<marginnote>}}[Video on YouTube]($1){{</marginnote>}}@@
 
 * Posts
-
 ** First                                                              :meta:
 :PROPERTIES:
 :EXPORT_FILE_NAME: first
@@ -211,8 +210,6 @@ Thanks to [[https://twitter.com/_iains][Iain Smith]] who messaged me to point ou
 *** Code Repository
 The code for this is available as part of the [[https://github.com/CombineHarvesters/FoundationCombine][FoundationCombine]] Swift Package available on GitHub. Alongside the =CombineLatest= publisher which inspired it.
 
-
-
 ** An Easy Answer is not Always Best                            :simplicity:
 :PROPERTIES:
 :EXPORT_FILE_NAME: an-easy-answer-is-not-always-best
@@ -252,7 +249,6 @@ This might be useful to somebody. I'm sure there are times where we all just nee
  understanding. A particular example is how the invert and multiply method of fractional division is widely taught without actually developing an understanding of the operation itself. When I was 14 my elder brother taught me [[https://en.wikipedia.org/wiki/Derivative][differentiation]]. Not by saying "subtract one from the exponent and multiply", but rather by drawing a curve and working through calculating a tangent using deltas and differences tending to zero and how it led to the simpler method. I've long forgotten the hard way, but after that I was very good at calculus.
 
 Perhaps this is something to think about next time somebody asks how to write an application without using Interface Builder in Xcode.
-
 
 * About
 :PROPERTIES:
