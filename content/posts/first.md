@@ -1,5 +1,6 @@
 +++
 title = "First"
+description = "just some text to show on the home page"
 date = 2023-10-12
 tags = ["meta"]
 draft = false

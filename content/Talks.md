@@ -11,7 +11,7 @@ Some of the presentations I have made at conferences and developer meet-ups over
 
 _iOSCon, London, 22nd March 2018_
 
-Move beyond "LGTM" Pull Requests{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/pull-requests-are-a-language){{</marginnote>}}{{<marginnote>}}[Video at Skills Matter](https://skillsmatter.com/skillscasts/11710-lightning-talk-pull-requests-are-language#video) (Free login required){{</marginnote>}} can be a way for teams to communicate more than just changes in a codebase.
+Move beyond "LGTM". Pull Requests{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/pull-requests-are-a-language){{</marginnote>}}{{<marginnote>}}[Video at Skills Matter](https://skillsmatter.com/skillscasts/11710-lightning-talk-pull-requests-are-language#video) (free login required){{</marginnote>}} can be a way for teams to communicate more than just changes in a codebase.
 
 
 ## The Road to Damascus, or FRP and Me {#the-road-to-damascus-or-frp-and-me}
@@ -32,14 +32,14 @@ An overview{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abiz
 
 _Swift London, London, 25th October, 2016_
 
-A short{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/safer-programming-with-types) notes attached{{</marginnote>}}{{<marginnote>}}[Video on YouTube](https://www.youtube.com/watch?v=uR6ox-9VPAA&t=1s){{</marginnote>}} talk about type safety presented at the Swift London meetup.
+A short{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/safer-programming-with-types){{</marginnote>}}{{<marginnote>}}[Video on YouTube](https://www.youtube.com/watch?v=uR6ox-9VPAA&t=1s){{</marginnote>}} talk about type safety presented at the Swift London meetup.
 
 
 ## Core Data: It's not Dead Yet {#core-data-it-s-not-dead-yet}
 
 _FrenchKit, Paris, 23rd September 2016_
 
-I spoke{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/core-data-its-not-dead-yet){{</marginnote>}}{{<marginnote>}}[Video on YouTube](https://youtu.be/iOdg7WOEWWE){{</marginnote>}} at the first FrenchKit conference about how Core Data is still relevant in the age of Swift.
+I spoke{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/core-data-its-not-dead-yet){{</marginnote>}}{{<marginnote>}}[Video on YouTube](https://youtu.be/iOdg7WOEWWE){{</marginnote>}} at the first FrenchKit (now known as Swift Connection) conference about how Core Data is still relevant in the age of Swift.
 
 
 ## Being Imperfect in a Perfect World {#being-imperfect-in-a-perfect-world}
@@ -60,7 +60,7 @@ I was a panel member for the AltConf post-WWDC discussion. This was recorded, bu
 
 _Swift London, London, June 2016_
 
-I {{<marginnote>}}[Video on YouTube](https://www.youtube.com/watch?v=PK1PPNTmGuw){{</marginnote>}} was a panel member for a pre-WWDC discussion. I was a late addition to this, which is my excuse for looking so scruffy.
+I{{<marginnote>}}[Video on YouTube](https://www.youtube.com/watch?v=PK1PPNTmGuw){{</marginnote>}} was a panel member for a pre-WWDC discussion. I was a late addition to this, which is my excuse for looking so scruffy.
 
 
 ## Dependency Management with Carthage {#dependency-management-with-carthage}
@@ -81,7 +81,7 @@ A talk{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/c
 
 _AltConf, San Francisco, June 2015_
 
-I had the {{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/what-haskell-teaches-me-about-writing-swift){{</marginnote>}} opportunity to present a longer version of the lightning talk I gave at Swift Summit. These are my personal thoughts about writing Swift after knowing some Haskell.
+I had the{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/what-haskell-teaches-me-about-writing-swift){{</marginnote>}} opportunity to present a longer version of the lightning talk I gave at Swift Summit. These are my personal thoughts about writing Swift after knowing some Haskell.
 
 This was recorded, but the video is no longer available.
 

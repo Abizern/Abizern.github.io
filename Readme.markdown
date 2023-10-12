@@ -64,3 +64,4 @@ Uses the hugo-tufte theme that, added as a submodule so that I'm not a hostage t
 - Clear the `content` folder to remove the generated markdown documents.
 - Generate the content from `Content.org` using `C-c C-e H A`
 - Hosting is my personal github page and there is a workflow to generate the site and publish it when the `main` branch is pushed to.
+  - This consumes some processing time - I should be well within my free tier minutes, but keep an eye on it.
