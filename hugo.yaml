@@ -8,6 +8,8 @@ hasCJKLanguage: true
 timeZone: Europe/London
 enableRobotsTXT: true
 
+markup.highlight.codeFences: true
+
 # Only modify the following if you know what you are doing
 markup:
   goldmark:
