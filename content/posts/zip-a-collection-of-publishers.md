@@ -30,24 +30,24 @@ urls                  // [String]
 
 ## Why Zip and not CombineLatest? {#why-zip-and-not-combinelatest}
 
-As the array of publishers that I have are one-shot publishers, I _could_ use the CombineLatest publisher described in the post above. There is a difference between CombineLatest and Zip. A diagram will help to make this clearer.
+As the array of publishers that I have are one-shot publishers, I _could_ use the CombineLatest publisher described in the post above. There is a difference between CombineLatest and Zip. Diagrams make this clearer.
 
 {{< figure
   src="/img/2019/09/CombineLatest.png"
-  title="Marble diagram or CombineLatest"
+  title="Marble diagram of CombineLatest"
   label="combine-latest-marble-diagram"
   caption="The _latest_ outputs of the publishers"
   attr=""
-  link=""
+  link="/img/2019/09/CombineLatest.png"
 >}}
 
 {{< figure
   src="/img/2019/09/Zip.png"
-  title="Marble diagram or Zip"
+  title="Marble diagram of Zip"
   label="zip-marble-diagram"
   caption="Publishes _pairs_ of outputs."
   attr=""
-  link=""
+  link="/img/2019/09/Zip.png"
 >}}
 
 I chose to write the Zip publisher because conceptually, I want to wait for all the matched outputs and using a Zip makes this requirement explicit. And, I wanted an excuse to write a publisher.
