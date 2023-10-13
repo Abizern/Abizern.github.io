@@ -8,7 +8,7 @@ meta = true
 math = false
 +++
 
-I have an array of publishers: `[Publisher<Data, Error>]` and want a publisher of the array of their outputs: `Publisher<[Data], Error>`. The Combine framework provides the `Zip` family of publishers which only go up to 4 inputs so this won't suit my needs. I'm going to write about the steps I took to create a publisher that does what I want.
+I{{<marginnote>}}This was originally published on my old site at [abizern.org](https://abizern.org){{</marginnote>}} have an array of publishers: `[Publisher<Data, Error>]` and want a publisher of the array of their outputs: `Publisher<[Data], Error>`. The Combine framework provides the `Zip` family of publishers which only go up to 4 inputs so this won't suit my needs. I'm going to write about the steps I took to create a publisher that does what I want.
 
 This seems like a daunting task. There is a blog post about creating a [Combine Latest publisher](https://danieltull.co.uk/blog/2019/08/04/combine-latest-collection/) which does something similar to what I needed. I could have used that publisher, but I wanted to be more explicit that this was a `Zip` type of publisher not a `CombineLatest` type of publisher.
 
@@ -64,18 +64,18 @@ Let's start with the Publisher itself. Publishers are =struct=s. In my case it's
 
 ```swift
 public struct ZipCollection<Publishers>
-    where
-    Publishers: Collection,
-    Publishers.Element: Publisher
+  where
+  Publishers: Collection,
+  Publishers.Element: Publisher
 {
-    public typealias Output = [Publishers.Element.Output]
-    public typealias Failure = Publishers.Element.Failure
+  public typealias Output = [Publishers.Element.Output]
+  public typealias Failure = Publishers.Element.Failure
 
-    private let publishers: Publishers
+  private let publishers: Publishers
 
-    public init(_ publishers: Publishers) {
-        self.publishers = publishers
-    }
+  public init(_ publishers: Publishers) {
+    self.publishers = publishers
+  }
 }
 ```
 
@@ -88,15 +88,15 @@ Add an extension to make `ZiCollection` conform to `Publisher` and implement the
 
 ```swift
 extension ZipCollection: Publisher {
-    public func receive<Subscriber>(subscriber: Subscriber)
-        where
-        Subscriber: Combine.Subscriber,
-        Subscriber.Failure == Failure,
-        Subscriber.Input == Output
-    {
-        let subscription = Subscription(subscriber: subscriber, publishers: publishers)
-        subscriber.receive(subscription: subscription)
-    }
+  public func receive<Subscriber>(subscriber: Subscriber)
+    where
+    Subscriber: Combine.Subscriber,
+    Subscriber.Failure == Failure,
+    Subscriber.Input == Output
+  {
+    let subscription = Subscription(subscriber: subscriber, publishers: publishers)
+    subscriber.receive(subscription: subscription)
+  }
 }
 ```
 
@@ -107,65 +107,65 @@ Create a `Subscription` object to return to the downstream subscribers that does
 
 ```swift
 extension ZipCollection {
-   fileprivate final class Subscription<Subscriber>: Combine.Subscription
-        where
-        Subscriber: Combine.Subscriber,
-        Subscriber.Failure == Failure,
-        Subscriber.Input == Output
-    {
-        private let subscribers: [AnyCancellable]
-        private let queues: [Queue<Publishers.Element.Output>]
+  fileprivate final class Subscription<Subscriber>: Combine.Subscription
+  where
+Subscriber: Combine.Subscriber,
+  Subscriber.Failure == Failure,
+  Subscriber.Input == Output
+  {
+    private let subscribers: [AnyCancellable]
+    private let queues: [Queue<Publishers.Element.Output>]
 
-        init(subscriber: Subscriber, publishers: Publishers) {
-            var count = publishers.count
-            var outputs = publishers.map { _ in Queue<Publishers.Element.Output>() }
-            queues = outputs
-            var completions = 0
-            var hasCompleted = false
-            let lock = NSLock()
+    init(subscriber: Subscriber, publishers: Publishers) {
+      var count = publishers.count
+      var outputs = publishers.map { _ in Queue<Publishers.Element.Output>() }
+      queues = outputs
+      var completions = 0
+      var hasCompleted = false
+      let lock = NSLock()
 
-            subscribers = publishers.enumerated().map { index, publisher in
-                publisher.sink(receiveCompletion: { completion in
-                    lock.lock()
-                    defer { lock.unlock() }
+      subscribers = publishers.enumerated().map { index, publisher in
+        publisher.sink(receiveCompletion: { completion in
+          lock.lock()
+          defer { lock.unlock() }
 
-                    guard case .finished = completion else {
-                        // Any failure causes the entire subscription to fail.
-                        subscriber.receive(completion: completion)
-                        hasCompleted = true
-                        outputs.forEach { queue in
-                            queue.removeAll()
-                        }
-                        return
-                    }
-
-                    completions += 1
-
-                    guard completions == count else { return }
-
-                    subscriber.receive(completion: completion)
-                    hasCompleted = true
-                }, receiveValue: { value in
-                    lock.lock()
-                    defer { lock.unlock() }
-
-                    guard !hasCompleted else { return }
-                    outputs[index].enqueue(value)
-
-                    guard (outputs.compactMap{ $0.peek() }.count) == count else { return }
-
-                    _ = subscriber.receive(outputs.compactMap({ $0.dequeue() }))
-                })
+          guard case .finished = completion else {
+            // Any failure causes the entire subscription to fail.
+            subscriber.receive(completion: completion)
+            hasCompleted = true
+            outputs.forEach { queue in
+              queue.removeAll()
             }
-        }
+            return
+          }
 
-        public func cancel() {
-            subscribers.forEach { $0.cancel() }
-            queues.forEach { $0.removeAll() }
-        }
+          completions += 1
 
-        public func request(_ demand: Subscribers.Demand) {}
+          guard completions == count else { return }
+
+          subscriber.receive(completion: completion)
+          hasCompleted = true
+        }, receiveValue: { value in
+          lock.lock()
+          defer { lock.unlock() }
+
+          guard !hasCompleted else { return }
+          outputs[index].enqueue(value)
+
+          guard (outputs.compactMap{ $0.peek() }.count) == count else { return }
+
+          _ = subscriber.receive(outputs.compactMap({ $0.dequeue() }))
+        })
+      }
     }
+
+    public func cancel() {
+      subscribers.forEach { $0.cancel() }
+      queues.forEach { $0.removeAll() }
+    }
+
+    public func request(_ demand: Subscribers.Demand) {}
+  }
 }
 ```
 
