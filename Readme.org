@@ -42,7 +42,7 @@ Math does not work locally on Safari, so check with Chrome.
 Uses the hugo-tufte theme that, added as a submodule so that I'm not a hostage to the original repository. The Github repo has a link to what it is forked from, so I can keep my submodule up to date.
 ** Deployment
 - Clear the =content= folder. The files will be regenerated.
-- Generate the content from =Content.org= in Emacs using =C-c C-t H A=
+- Generate the content from =Content.org= in Emacs using =C-c C-e H A=
 - Commit the changes.
 - Push to GitHub. There is a workflow to regenerate the site when the =main= branch is updated.
   - This consumes a little processing time. It should easily come within my free allowance, but it's something to keep an eye on.
