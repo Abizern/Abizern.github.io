@@ -23,7 +23,7 @@ Posts have a Title and an optional subtitle that can be set in the front matter.
 Tufte recommends two levels for content: Section (h2) and Subsection (h3), other heading styles are not supported. So don't go below two levels of nested content in a post.
 
 *** To generate a new post from the current subtree:
-=C-c C-e H H (org-hugo-export-wim-to-md)=o
+=C-c C-e H H (org-hugo-export-wim-to-md)=
 *** To regenerate the whole site:
 =C-c C-e H A (org-hugo-export-wim-to-md :all-subtrees)=
 
