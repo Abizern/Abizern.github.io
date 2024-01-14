@@ -30,7 +30,7 @@ params:
   # Some suggestions: ⊕, 💬, 💭, 📑, 🏷, ✍, 💡, 🧐, 📎, 📌
   marginNoteInd: "💬"
   # Your name or the name of you company
-  copyright: © 2010-2023 Abizer Nasir <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  copyright: © 2010-2024 Abizer Nasir <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
   copyrightHolder:  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY-4.0</a>
   # Show the "Powered by Hugo-Tufte and Hugo."
   showPoweredBy: true
