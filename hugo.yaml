@@ -28,7 +28,7 @@ params:
   codeblocksdark: false
   # Customize the indicator for margin notes
   # Some suggestions: ⊕, 💬, 💭, 📑, 🏷, ✍, 💡, 🧐, 📎, 📌
-  marginNoteInd: "💬"
+  marginNoteInd: "📌"
   # Your name or the name of you company
   copyright: © 2010-2024 Abizer Nasir <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
   copyrightHolder:  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY-4.0</a>
@@ -61,7 +61,7 @@ params:
   # reddit: Slashformotion
   stackoverflow: 41116/abizern
   # instagram: google
-  # mastodon: instance.url/@username
+  mastodon: mastodon.social/@abizern
   # orcid: 0000-0003-0634-3275
   # google_scholar: jm5QaHkAAAAJ
 
