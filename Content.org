@@ -362,9 +362,11 @@ Key: Available on a keyserver near you, or you can [[/res/GPGKey.asc][download i
 
 ** Colophon
 
-This is a static site generated using [[https://gohugo.io][Hugo]] and the [[https://hugo-tufte.netlify.app][hugo-tufte]] theme. There are no analytics being collected.
+This is a static site generated using [[https://gohugo.io][Hugo]] and my lightly modified version of the [[https://hugo-tufte.netlify.app][hugo-tufte]] theme.
 
-Comments are not enabled on this site. If you'd like to follow up on anything just send me an email
+There are no analytics being collected.
+
+Comments are not enabled on this site. If you'd like to follow up on anything just send me an email.
 
 * Talks
 :PROPERTIES:
