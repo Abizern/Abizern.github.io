@@ -349,7 +349,9 @@ You can see my older posts at my previous site [[https://abizern.org][abizern.or
 ** Contact
 Feel{{{marginnote(Looks odd\, but this way I know the contact is coming from this site)}}} free to contact me at [[mailto://tails-rollout0s@icloud.com][tails-rollout0s@icloud.com]].
 
-I can be found on various places online with the username of =abizern=. I'm not on Facebook, though.
+I can be found on various places online with the username of =abizern=. The major ones are in the footer.
+
+I'm not on Facebook, though.
 
 ** GPG Key
 Key ID: =7E2C07666BEEED1C=
