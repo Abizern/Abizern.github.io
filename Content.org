@@ -12,7 +12,7 @@
 
 ** AoC Day2: Red-Nosed Reports                    :advent_of_code:swift:
 :PROPERTIES:
-:EXPORT_FILE_NAME: aoc-day1-red-nosed-reports
+:EXPORT_FILE_NAME: aoc-day2-red-nosed-reports
 :EXPORT_DATE: 2024-12-02
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :meta true :math true
 :END:
