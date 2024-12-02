@@ -68,7 +68,7 @@ If a report is not safe, I removed one of the numbers and checked again:
   }
 #+end_src
 
-And, again, a filter and count gives my the answer.
+And, again, a filter and count gives me the answer.
 
 *** Complexity
 My completely unscientific assessment of the complexity of removing an element and checking the array again:
