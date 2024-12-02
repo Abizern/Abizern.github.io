@@ -35,6 +35,8 @@ Key: Available on a keyserver near you, or you can [download it](/res/GPGKey.asc
 
 ## Colophon {#colophon}
 
-This is a static site generated using [Hugo](https://gohugo.io) and the [hugo-tufte](https://hugo-tufte.netlify.app) theme. There are no analytics being collected.
+This is a static site generated using [Hugo](https://gohugo.io) and my lightly modified version of the [hugo-tufte](https://hugo-tufte.netlify.app) theme.
 
-Comments are not enabled on this site. If you'd like to follow up on anything just send me an email
+There are no analytics being collected.
+
+Comments are not enabled on this site. If you'd like to follow up on anything just send me an email.
