@@ -1,5 +1,5 @@
 +++
-title = "AoC Day2: Red-Nosed Reports"
+title = "Advent of Code Day2: Red-Nosed Reports"
 description = "Notes on Advent of Code 2024 Day 2"
 date = 2024-12-02
 tags = ["advent-of-code", "swift"]

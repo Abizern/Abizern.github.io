@@ -10,7 +10,7 @@
 
 * Posts
 
-** AoC Day2: Red-Nosed Reports                    :advent_of_code:swift:
+** Advent of Code Day2: Red-Nosed Reports             :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day2-red-nosed-reports
 :EXPORT_DATE: 2024-12-02
@@ -83,7 +83,7 @@ So, no need to do anything clever, and my solutions are still output in millisec
 
 
 
-** AoC Day 1: Historian Hysteria                      :advent_of_code:swift:
+** Advent of Code Day 1: Historian Hysteria           :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day1-historian-hysteria
 :EXPORT_DATE: 2024-12-01
