@@ -21,7 +21,7 @@ markup:
 
 params:
   # Subtitle of the website
-  subtitle: "I'm just this guy, you know?"
+  subtitle: "Excuse me? I believe you have my stapler..."
   favicon: "./favicon.ico"
   touchicon: "./apple-touch-icon.png"
   # Dark code highlighting
