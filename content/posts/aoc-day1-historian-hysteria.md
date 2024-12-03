@@ -1,6 +1,6 @@
 +++
 title = "Advent of Code Day 1: Historian Hysteria"
-description = "Notes on Advent of Code 2024 Day 1"
+description = "A gentle start to the 10th Annual Hunger Games, er, I mean: Advent of Code."
 date = 2024-12-01
 tags = ["advent-of-code", "swift"]
 draft = false

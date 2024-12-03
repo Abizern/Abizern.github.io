@@ -1,6 +1,6 @@
 +++
 title = "Advent of Code Day2: Red-Nosed Reports"
-description = "Notes on Advent of Code 2024 Day 2"
+description = "Use the (brute) force, Luke."
 date = 2024-12-02
 tags = ["advent-of-code", "swift"]
 draft = false
@@ -60,7 +60,7 @@ func isSafeOrCorrectable(_ report: [Int]) -> Bool {
 }
 ```
 
-And, again, a filter and count gives my the answer.
+And, again, a filter and count gives me the answer.
 
 
 ## Complexity {#complexity}
