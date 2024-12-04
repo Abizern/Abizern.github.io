@@ -8,7 +8,7 @@ meta = true
 math = true
 +++
 
-Today's challenge was only slightly more complicated than yesterday's, and one where brute(ish) force was enough. My solution is on Github{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day02.swift{{</sidenote>}}.
+Today's{{<sidenote>}}https://adventofcode.com/2024/day/2{{</sidenote>}} challenge was only slightly more complicated than yesterday's, and one where brute(ish) force was enough. My solution is on Github{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day02.swift{{</sidenote>}}.
 
 
 ## Part 1 {#part-1}

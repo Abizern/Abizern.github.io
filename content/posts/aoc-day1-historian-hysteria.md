@@ -1,6 +1,6 @@
 +++
 title = "Advent of Code Day 1: Historian Hysteria"
-description = "A gentle start to the 10th Annual Hunger Games, er, I mean: Advent of Code."
+description = "Welcome to the 10th Annual Hunger Games, er, I mean: Advent of Code."
 date = 2024-12-01
 tags = ["advent-of-code", "swift"]
 draft = false
@@ -14,7 +14,7 @@ I've normally done these in languages that I don't use for work --- Common-lisp 
 
 I created a template package{{<sidenote>}}https://github.com/Abizern/swift-aoc-starter-template{{</sidenote>}}, based on one provided by Apple, for Swift solutions.
 
-As expected the first day's problem is fairly easy and a way to make sure that one's environment is set up correctly and works.
+As expected the first day's{{<sidenote>}}https://adventofcode.com/2024/day/1{{</sidenote>}} problem is fairly easy and a way to make sure that one's environment is set up correctly and works.
 
 This is the 10th anniversary event, and since it involves a missing historian, I think there may be throwbacks to problems from previous years.
 

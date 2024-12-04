@@ -8,7 +8,7 @@ meta = true
 math = false
 +++
 
-Normally it takes a few more days before I feel my Advent of Code inadequacy, but it struck on day 3 instead. Parsing the input into a data structure that I could work with was the hardest part of today's challenge.
+Normally it takes a few more days before I feel my Advent of Code inadequacy, but it struck on day 3{{<sidenote>}}https://adventofcode.com/2024/day/3{{</sidenote>}} instead. Parsing the input into a data structure that I could work with was the hardest part of today's challenge.
 
 I try to use the Swift-Parsing package{{<sidenote>}}https://github.com/pointfreeco/swift-parsing/{{</sidenote>}} because I like the way it works, and also as an excuse to get better at using it. My first attempts at using it for Part 1 failed, so rather than bang my head any longer than I needed to, I resorted to using Swift's new `Regex` functionality. This way I could get to see what part 2 looked like and have an idea of all the parsing requirements for the challenge.
 
@@ -83,17 +83,17 @@ so the initial parsing done with Regular expressions:
 
 ```swift
 func parseInput() -> [(Int, Int)] {
-    let pattern = #/mul\((\d+),(\d+)\)/#
+  let pattern = #/mul\((\d+),(\d+)\)/#
 
-    return data
-      .matches(of: pattern)
-      .map { match -> (Int, Int)? in
-        if let a = Int(match.output.1), let b = Int(match.output.2) {
-          return (a, b)
-        }
-        return nil
-      }.compactMap { $0 }
-  }
+  return data
+    .matches(of: pattern)
+    .map { match -> (Int, Int)? in
+      if let a = Int(match.output.1), let b = Int(match.output.2) {
+        return (a, b)
+      }
+      return nil
+    }.compactMap { $0 }
+}
 ```
 
 Now that I look at it, it doesn't look that bad.
@@ -101,7 +101,7 @@ Now that I look at it, it doesn't look that bad.
 Using Swift-Parsing is more verbose. First I had to define the Parsers:
 
 ```swift
-  struct MulParser: Parser {
+struct MulParser: Parser {
   var body: some Parser<Substring, Instruction> {
     Parse(Instruction.init) {
       "mul("
