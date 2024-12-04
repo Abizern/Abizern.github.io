@@ -88,7 +88,7 @@ A little long winded, but it's clear in its intent. At least to me it is.
 so the initial parsing done with Regular expressions:
 
 #+begin_src swift
-func parseInput() -> [(Int, Int)] {
+  func parseInput() -> [(Int, Int)] {
     let pattern = #/mul\((\d+),(\d+)\)/#
 
     return data
@@ -100,7 +100,7 @@ func parseInput() -> [(Int, Int)] {
         return nil
       }.compactMap { $0 }
   }
-  #+end_src
+#+end_src
 
   Now that I look at it, it doesn't look that bad.
 
@@ -108,26 +108,26 @@ func parseInput() -> [(Int, Int)] {
 
   #+begin_src swift
     struct MulParser: Parser {
-    var body: some Parser<Substring, Instruction> {
-      Parse(Instruction.init) {
-        "mul("
-        Int.parser()
-        ","
-        Int.parser()
-        ")"
+      var body: some Parser<Substring, Instruction> {
+        Parse(Instruction.init) {
+          "mul("
+          Int.parser()
+          ","
+          Int.parser()
+          ")"
+        }
       }
     }
-  }
 
-  struct InstructionParser: Parser {
-    var body: some Parser<Substring, Instruction> {
-      OneOf {
-        MulParser()
-        "don't()".map { _ in Instruction.disabled }
-        "do()".map { _ in Instruction.enabled }
+    struct InstructionParser: Parser {
+      var body: some Parser<Substring, Instruction> {
+        OneOf {
+          MulParser()
+          "don't()".map { _ in Instruction.disabled }
+          "do()".map { _ in Instruction.enabled }
+        }
       }
     }
-  }
   #+end_src
 
   Then a parsing function:
@@ -235,7 +235,7 @@ So, no need to do anything clever, and my solutions are still output in millisec
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :meta true :math false
 :END:
 #+begin_description
-A gentle start to the 10th Annual Hunger Games, er, I mean: Advent of Code.
+Welcome to the 10th Annual Hunger Games, er, I mean: Advent of Code.
 #+end_description
 Advent of Code{{{sidenote(https://adventofcode.com)}}} is an advent calendar of programming problems created by Eric Wastl{{{sidenote(http://was.tl)}}}.
 
