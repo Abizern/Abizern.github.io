@@ -10,7 +10,7 @@ math = false
 
 I made a couple of mis-steps that slowed me down a little.
 
-This was another day{{<sidenote>}}https://adventofcode/2024/day/5{{</sidenote>}} where part 2 wasn't as much of a jump in difficulty, but needed careful reading; only add the middle values for lists that need sorting. You can see my full solution on Github{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/sources/Day05.txt{{</sidenote>}}.
+This was another day{{<sidenote>}}https://adventofcode/2024/day/5{{</sidenote>}} where part 2 wasn't as much of a jump in difficulty, but needed careful reading; only add the middle values for lists that need sorting. You can see my full solution on Github{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day05.swift{{</sidenote>}}.
 
 
 ## Part 1 {#part-1}
