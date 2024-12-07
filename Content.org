@@ -13,7 +13,7 @@
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day7-bridge-repair
 :EXPORT_DATE: 2024-12-07
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :meta true :math false
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :meta true :math true
 :END:
 #+begin_description
 It's turtles all the way down.

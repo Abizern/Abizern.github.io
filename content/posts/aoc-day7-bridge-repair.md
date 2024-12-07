@@ -5,7 +5,7 @@ date = 2024-12-07
 tags = ["advent-of-code", "swift"]
 draft = false
 meta = true
-math = false
+math = true
 +++
 
 Recursion can make your head hurt, but it can simplify some classes of problems once you get used to the idea of turtles{{<sidenote>}}https://en.wikipedia.org/wiki/Turtles_all_the_way_down{{</sidenote>}} all the way down.
