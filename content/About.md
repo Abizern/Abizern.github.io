@@ -19,9 +19,11 @@ You can see my older posts at my previous site [abizern.org](https://abizern.org
 
 Feel{{<marginnote>}}Looks odd, but this way I know the contact is coming from this site{{</marginnote>}} free to contact me at [tails-rollout0s@icloud.com](mailto://tails-rollout0s@icloud.com).
 
-I can be found on various places online with the username of `abizern`. The major ones are in the footer.
+I can be found on various places online with the username of `abizern`.
 
-I'm not on Facebook, though.
+I no longer use Twitter, but I can be found on Mastodon and Bluesky. {{<marginnote>}}The links are in the footer{{</marginnote>}}
+
+I'm not on Facebook, or Threads though.
 
 
 ## GPG Key {#gpg-key}
