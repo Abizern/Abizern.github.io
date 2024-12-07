@@ -139,7 +139,7 @@ Using the using =branch3= this would recurse with:
 And we don't need to do any specific checks because we've reached the base case of a single value that matches the target. That's why the check for branch3 is that the target has more digits that the value at the end of the list.
 
 
-** Advent of Code Day6: Guard Gallivant :advent_of_code:swift:
+** Advent of Code Day6: Guard Gallivant               :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day6-guard-gallivant
 :EXPORT_DATE: 2024-12-06
@@ -846,6 +846,7 @@ The full solution is available on Github{{{sidenote(https://github.com/Abizern/a
 
 A simple puzzle that let me test my Swift environment, and this blog.
 
+
 ** Zip a Collection of Publishers                            :combine:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: zip-a-collection-of-publishers
@@ -1034,6 +1035,7 @@ Thanks to [[https://twitter.com/_iains][Iain Smith]] who messaged me to point ou
 
 *** Code Repository
 The code for this is available as part of the [[https://github.com/CombineHarvesters/FoundationCombine][FoundationCombine]] Swift Package available on GitHub. Alongside the =CombineLatest= publisher which inspired it.
+
 
 ** An Easy Answer is not Always Best                            :simplicity:
 :PROPERTIES:

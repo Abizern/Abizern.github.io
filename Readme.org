@@ -31,7 +31,10 @@ Fill this out
 *** Local Server
 The site can be viewed locally, including drafts, with =hugo server -D=.
 
-Math does not work locally on Safari, so check with Chrome.
+Math does not work locally on Safari, sometimes so check with Chrome. Or restart the local server, This is also useful for when sidenotes get messed up.
+
+Don't be tempted to delete the content folder. Although the site is generate by github, it doesn't run the ox-hugo commands to generate the markdown content pages. So only what is generated is added to the site.
+
 ** See what the site looks like
 - Since everything is generated from the =Content.org= file, open this in Emacs
 - To generate a new post from the current subtree: =C-c C-e H H= which is the shortcut for =(org-hugo-export-wim-to-md)=  (NOT RECOMMENDED) or 
