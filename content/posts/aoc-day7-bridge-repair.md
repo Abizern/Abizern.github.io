@@ -12,7 +12,7 @@ Recursion can make your head hurt, but it can simplify some classes of problems 
 
 Today{{<sidenote>}}https://adventofcode.com/2024/day/7{{</sidenote>}} was about trying to validate lists of numbers according to simple rules.
 
-It isn't possible to just insert all combinations of the operators, because for 2 numbers there are 2 possibilities. For 3 numbers there are 4 possibilities. For 4 numbers 8. Essentially: it's \\(\mathcal{O}(n-1)\\) which grows really quickly. A quick look at the input shows that some lines have 10 values. So A recursive solution which fails quickly is a better idea.
+It isn't possible to just insert all combinations of the operators, because for 2 numbers there are 2 possibilities. For 3 numbers there are 4 possibilities. For 4 numbers 8. Essentially: it's \\(\mathcal{O}(2^{n-1})\\) which grows really quickly. A quick look at the input shows that some lines have 10 values. So A recursive solution which fails quickly is a better idea.
 
 If I had read the question properly and understood the meaning of **always evaluated left-to-right** I might have saved myself some trouble.
 

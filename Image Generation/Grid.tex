@@ -1,0 +1,20 @@
+\documentclass[tikz]{standalone}
+
+\begin{document}
+\begin{tikzpicture}
+
+% Define grid size and spacing
+\foreach \x in {0,1,2,3,4}
+  \foreach \y in {0,1,2,3,4}
+    {
+      % Draw dots at each grid point
+      \fill (\x,\y) circle (2pt);
+    }
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
