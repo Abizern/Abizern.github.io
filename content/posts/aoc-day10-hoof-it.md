@@ -167,19 +167,15 @@ func trailCount(_ grid: Grid<Int>, start: Cell, allPaths: Bool = false) -> Int {
 
 Which takes a flag that controls whether unique paths are counted or all paths.
 
-And the code to get the answer is similar for both parts.
+And the original functions can be rewritten to use this more general function:
 
 ```swift
-func part1() async throws -> Int {
-  trailHeads(grid)
-    .map { trailCount(grid, start: $0, allPaths: false) }
-    .reduce(0, +)
+func score(_ grid: Grid<Int>, start: Cell) -> Int {
+  trailCount(grid, start: start)
 }
 
-func part2() async throws -> Int {
-  trailHeads(grid)
-    .map { trailCount(grid, start: $0, allPaths: true) }
-    .reduce(0, +)
+func rating(_ grid: Grid<Int>, start: Cell) -> Int {
+  trailCount(grid, start: start, allPaths: true)
 }
 ```
 
