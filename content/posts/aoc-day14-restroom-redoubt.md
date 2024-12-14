@@ -20,4 +20,4 @@ It probably isn't worth putting the code itself here, but it's available{{<siden
 
 ## Part 2 {#part-2}
 
-No way to write a test for this, and I wasn't going to cycle through all the possibilities to look for a tree. And there wasn't a description of the tree. Thinking it could have something to do with the solution to part 1, I looked at varies points, if any quadrants we empty, or symmetric, but it turned out that finding the **minimum of the safety score**, is the answer. You can see the output of my tree{{<sidenote>}}[aoc-tree.txt](/img/2024/12/aoc-tree.txt){{</sidenote>}}
+No way to write a test for this, and I wasn't going to cycle through all the possibilities to look for a tree. And there wasn't a description of the tree. Thinking it could have something to do with the solution to part 1, I looked at varies points, if any quadrants we empty, or symmetric, but it turned out that finding the **minimum of the safety score**, is the answer. You can see the output of my tree{{<sidenote>}}[aoc-tree.txt](/img/2024/12/aoc-tree.txt){{</sidenote>}} as a text file.

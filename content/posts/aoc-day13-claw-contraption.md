@@ -115,7 +115,7 @@ We can simplify this as:
 
 And we are left with:
 
-\\[ a'm = c' \quad (7) \\
+\\[ a'm = c' \quad (7) \\]
 
 This is where the conditions for Diophantine equations apply. obviously \\[a'\\] can't be zero, and \\[c' / a' \\] has to be a whole number. Since presses can only be whole numbers, \\[m\\] and \\[n\\] have to be whole numbers.
 
