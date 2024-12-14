@@ -41,7 +41,7 @@ params:
   showSummary: true
   # Site wide kill switch for LaTeX support
   math: true
-  KaTeXVersion: 0.16.4
+  KaTeXVersion: 0.16.15
   KaTeXCDN: "//cdn.jsdelivr.net/npm"
   # #### Control style flavours of the website
   # Use upright & sans-serif font for subtitles

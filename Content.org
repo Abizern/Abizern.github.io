@@ -9,6 +9,150 @@
 #+MACRO: youtube @@html:{{<marginnote>}}[Video on YouTube]($1){{</marginnote>}}@@
 
 * Posts
+** Advent of Code Day13: Claw Contraption             :advent_of_code:swift:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-day13-claw-contraption
+:EXPORT_DATE: 2024-12-14T13:30:00Z
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :meta true :math true
+:END:
+#+begin_description
+The claw has chosen...
+#+end_description
+
+I went on a bit of a math rabbit hole, but came up with a solution that runs quickly enough.
+
+This one is just about maths. We have a machine with buttons to move a claw{{{sidenote(https://adventofcode.com/2024/day/13)}}} and want to know a) can it be positioned in a particular place, and b) if it can be positioned, how much will it cost.
+
+*** Part 1
+We are told that the machine should take no more than 100 button presses to move the claw. As I like to get the first part done quickly so that I can get to the second part, I wrote a brute for solution that just ran through 100 button presses until I found an answer.
+
+#+begin_src swift
+  var minimumCost: Int? {
+    var minimumCost: Int?
+    for a in 0 ..< 100 {
+      for b in 0 ..< 100 {
+        let currentX = a * buttonA.dx + b * buttonB.dx
+        let currentY = a * buttonA.dy + b * buttonB.dy
+
+        if currentX == prize.x, currentY == prize.y {
+          let cost = 3 * a + b
+          if minimumCost == nil || cost < minimumCost! {
+            minimumCost = cost
+          }
+        }
+      }
+    }
+    return minimumCost
+  }
+#+end_src
+
+Even for all of the inputs, this hardly took any time. I'm not sure I even needed to worry about the minimum cost, these are straight line equations and will only have one solution.
+
+Running the solution was a one liner.
+
+#+begin_src swift
+  func part1() async throws -> Int {
+    machines.compactMap(\.costToWin).reduce(0, +)
+  }
+#+end_src
+
+*** Part 2
+With the target positions set to large numbers, this brute force method was not going to be feasible.
+
+We have two equations linear equations
+
+\[
+a_x m + b_x n = c_x \quad (1) \\
+a_y m + b_y n = c_y \quad (2)
+\]
+
+where:
+- \(a_x\) and \(b_x\) are the distances moved in the \(x\) direction by the \(a\) and \(b\) buttons.
+- \(a_y\) and \(b_y\) are the distances moved in the \(y\) direction by the \(a\) and \(b\) buttons.
+- \(c_x\) and \(c_y\) are the distances in the \(x\) and \(y\) direction to the target.
+
+These are simultaneous equations that could be solved mathematically many ways, direct substitution, matrix methods, etc. But we know that these are Linear Diophantine{{{sidenote(https://en.wikipedia.org/wiki/Diophantine_equation#:~:text=In%20mathematics%2C%20a%20Diophantine%20equation,integer%20solutions%20are%20of%20interest.)}}} equations, that have whole number solutions, and I didn't want to use numerical methods that deal with Real numbers.
+
+I thought about using the Chinese Remainder Theorem{{{sidenote(https://en.wikipedia.org/wiki/Chinese_remainder_theorem)}}}, but for only two equations I didn't want to go turning them into modular forms.
+
+But there is the Extended Euclidean Algorithm{{{sidenote(https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)}}} which deals with equations of the form we are given, so I tried to use that.
+
+But since there are two equations, I didn't need to go that far, there are only a couple of checks that need to be done. Essentially the code to solve this returns a tuple of the number of presses required for A and B, or nil if there is no solution.
+
+#+begin_src swift
+  public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
+  let aPrime = ay * bx - by * ax
+  let cPrime = cy * bx - by * cx
+
+  if aPrime == 0 || cPrime % aPrime != 0 {
+    return nil
+  }
+
+  let m = cPrime / aPrime
+
+  let numerator = cx - ax * m
+  if numerator % bx != 0 {
+    return nil
+  }
+
+  let n = numerator / bx
+
+  return (m, n)
+}
+#+end_src
+
+We can rearrange \((1)\) so that there is only one variable on the left:
+
+\[
+n = \frac{c_x - a_xm}{b_x} \quad (3)
+\]
+
+Substitute this value of n into \((2)\):
+
+\[ a_y m + b_y \left( \displaystyle \frac{c_x - a_x m}{b_x} \right) = c_y \quad (4) \]
+
+With a little re-arrangement and distribution{{{marginnote(Left as an exercise for the reader.)}}} this can be re-written as:
+
+\[ (a_y b_x - b_y a_x) m = c_y b_x - b_y c_x \quad (5) \]
+
+We can simplify this as:
+
+\[ a' = a_y b_x - b_y a_x , c' = c_y b_x - b_y c_x  \quad (6) \]
+
+And we are left with:
+
+\[ a'm = c' \quad (7) \
+
+This is where the conditions for Diophantine equations apply. obviously \[a'\] can't be zero, and \[c' / a' \] has to be a whole number. Since presses can only be whole numbers, \[m\] and \[n\] have to be whole numbers.
+
+The rest is just substitution.
+
+#+begin_src swift
+  var costToWin: Int? {
+    guard let (a, b) = diophantineEEA(
+            ax: buttonA.dx,
+            bx: buttonB.dx,
+            ay: buttonA.dy,
+            by: buttonB.dy,
+            cx: prize.x,
+            cy: prize.y
+          )
+    else {
+      return nil
+    }
+    return 3 * a + b
+  }
+
+  func part2() async throws -> Int {
+    machines.map(\.corrected).compactMap((\.costToWin)).reduce(0, +)
+  }
+#+end_src
+
+This runs really quickly. Not sure I needed to spend the time learning how to make sure the answers are whole numbers, but that's one of the reasons I do AoC -- to learn new things.
+
+As usual, the full code{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day13.swift)}}} is on Github.
+
+
 ** Advent of Code Day12: Garden Groups                :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day12-garden-groups
