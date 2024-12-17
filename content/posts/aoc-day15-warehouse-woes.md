@@ -168,6 +168,8 @@ I have to handle the ends of this row a little differently since boxes are in tw
 
 The same recursive process applies.
 
+Another difference is that I over ever visited tile with "." before moving the boxes to their new positions, because, unlike the horizontal case, not every position will be overwritten bi a new box or a robot.
+
 I then run these two recursive functions from a single non-recursive function:
 
 ```swift
