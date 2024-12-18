@@ -161,7 +161,7 @@ I do this until I find a node to remove that is on the path, and the new recalcu
 This runs an just over 1s. I can live with that.
 
 *** General Progress.
-I'm behind in my solutions, but I'm up to date with my notes. I still have Day 16 to do and the second part of Day18. But I'll get around to them when I can.
+I'm behind in my solutions, but I'm up to date with my notes. I still have Day 16 to do and the second part of Day17. But I'll get around to them when I can.
 
 My notes are out of order, but I don't think that matters and I don't want to be held up by wanting to write them in order.
 
