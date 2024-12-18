@@ -165,4 +165,4 @@ I'm behind in my solutions, but I'm up to date with my notes. I still have Day 1
 
 My notes are out of order, but I don't think that matters and I don't want to be held up by wanting to write them in order.
 
-I'm a little concerned about tomorrow. Today was reasonable easy to just get an answer. There might be some terrors yet to come.
+I'm a little concerned about tomorrow. Today was reasonably easy to just get an answer. There might be some terrors yet to come.
