@@ -102,6 +102,8 @@ func part2() async throws -> Int {
 
 It took less than 0.1s for each part and I think that's good enough.
 
-I still have some left-over challenges to finish and I'd rather work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{<sidenote>}}There is no talk{{</sidenote>}}.
+As usual, the full source is available on Github{{<marginnote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day19.swift{{</marginnote>}}.
+
+I still have some left-over challenges to finish and I should work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{<sidenote>}}There is no talk{{</sidenote>}}.
 
 I'm giving myself permission to slack off on this one.
