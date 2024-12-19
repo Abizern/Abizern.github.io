@@ -2487,7 +2487,7 @@ Key: Available on a keyserver near you, or you can [[/res/GPGKey.asc][download i
 
 ** Colophon
 
-This is a static site generated using [[https://gohugo.io][Hugo]] and my lightly modified version of the [[https://hugo-tufte.netlify.app][hugo-tufte]] theme.
+This is a static site generated{{{marginnote(The source for the site is available here https://github.com/Abizern/Abizern.github.io)}}} using [[https://gohugo.io][Hugo]] and my lightly modified version of the [[https://hugo-tufte.netlify.app][hugo-tufte]] theme.
 
 There are no analytics being collected.
 
