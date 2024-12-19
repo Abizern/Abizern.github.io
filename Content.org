@@ -19,11 +19,11 @@
 Another simple day. Did it fast, then left it alone
 #+end_description
 
-My worries for today's{{{marginnote(https://adventofcode.com/2024/day/19)}}} puzzle being very difficult were unfounded. Which makes me more concerned for the weekend.
+My worries for today's{{{sidenote(https://adventofcode.com/2024/day/19)}}} puzzle being very difficult were unfounded. Which makes me more concerned for the weekend.
 
 We are supposed to find the number of towel patterns that are possible given a set of small towels, and then we are supposed to count the number that can be created.
 
-This is an application of the Change-making problem{{{marginnote(https://en.wikipedia.org/wiki/Change-making_problem)}}}.
+This is an application of the Change-making problem{{{sidenote(https://en.wikipedia.org/wiki/Change-making_problem)}}}.
 
 *** Part 1
 I made a recursive function which worked, but slowly, so I added a cache to it.
@@ -108,7 +108,7 @@ While searching, I recurse on the shortened target. In Part 1 I used a set of so
 *** Final Thoughts
 It took less than 0.1s for each part and I think that's good enough.
 
-As usual, the full source is available on Github{{{marginnote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day19.swift)}}}.
+As usual, the full source is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day19.swift)}}}.
 
 I still have some left-over challenges to finish and I should work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{{sidenote(There is no talk\, but I do think excessive application of DRY may lead to unwanted coupling)}}}.
 
