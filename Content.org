@@ -110,7 +110,7 @@ It took less than 0.1s for each part and I think that's good enough.
 
 As usual, the full source is available on Github{{{marginnote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day19.swift)}}}.
 
-I still have some left-over challenges to finish and I should work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{{sidenote(There is no talk, but I do think excessive application of DRY may lead to unwanted coupling)}}}.
+I still have some left-over challenges to finish and I should work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{{sidenote(There is no talk\, but I do think excessive application of DRY may lead to unwanted coupling)}}}.
 
 I'm giving myself permission to slack off on this one.
 
