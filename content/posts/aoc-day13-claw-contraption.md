@@ -74,7 +74,7 @@ But there is the Extended Euclidean Algorithm{{<sidenote>}}https://en.wikipedia.
 But since there are two equations, I didn't need to go that far, there are only a couple of checks that need to be done. Essentially the code to solve this returns a tuple of the number of presses required for A and B, or nil if there is no solution.
 
 ```swift
-  public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
+public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
   let aPrime = ay * bx - by * ax
   let cPrime = cy * bx - by * cx
 

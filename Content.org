@@ -3,7 +3,7 @@
 #+MACRO: marginnote @@html:{{<marginnote>}}$1{{</marginnote>}}@@
 #+MACRO: sidenote @@html:{{<sidenote>}}$1{{</sidenote>}}@@
 
-# These are used in the Talks section
+# These are mostly used in the Talks section
 #+MACRO: speakerdeck @@html:{{<marginnote>}}[Slides on Speaker Deck]($1){{</marginnote>}}@@
 #+MACRO: skillsmatter @@html:{{<marginnote>}}[Video at Skills Matter]($1) (free login required){{</marginnote>}}@@
 #+MACRO: youtube @@html:{{<marginnote>}}[Video on YouTube]($1){{</marginnote>}}@@
@@ -137,7 +137,6 @@ Unfortunately, I wasted a lot of time trying to debug my code before I realised 
 Both parts run in under 2s and I can't see any obvious way of making this run any faster. Also, unlike the beginning of the month, I don't feel the urge to make my code as elegant as possible. It works, I get results in a reasonable amount of time, and I've written notes about my work on here.
 
 Just a few more days to go. Maybe just one more for me before I finish the others off between Christmas and the New Year.
-
 
 ** Advent of Code Day20: Race Condition               :advent_of_code:swift:
 :PROPERTIES:
@@ -349,8 +348,7 @@ I'm a little sad I couldn't get the best out of GameplayKit. I assume that it's 
 
 I'm also surprised that I've managed to get to day 20 only missing 3 stars. 
 
-
-** Advent of Code Day19: Linen Layout :advent_of_code:swift:
+** Advent of Code Day19: Linen Layout                 :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day19-linen-layout
 :EXPORT_DATE: 2024-12-19
@@ -455,7 +453,7 @@ I still have some left-over challenges to finish and I should work on them rathe
 
 I'm giving myself permission to slack off on this one.
 
-** Advent of Code Day18: RAM Run                    :advent_of_code:swift:
+** Advent of Code Day18: RAM Run                      :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day18-ram-run
 :EXPORT_DATE: 2024-12-18
@@ -903,24 +901,24 @@ But since there are two equations, I didn't need to go that far, there are only 
 
 #+begin_src swift
   public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
-  let aPrime = ay * bx - by * ax
-  let cPrime = cy * bx - by * cx
+    let aPrime = ay * bx - by * ax
+    let cPrime = cy * bx - by * cx
 
-  if aPrime == 0 || cPrime % aPrime != 0 {
-    return nil
+    if aPrime == 0 || cPrime % aPrime != 0 {
+      return nil
+    }
+
+    let m = cPrime / aPrime
+
+    let numerator = cx - ax * m
+    if numerator % bx != 0 {
+      return nil
+    }
+
+    let n = numerator / bx
+
+    return (m, n)
   }
-
-  let m = cPrime / aPrime
-
-  let numerator = cx - ax * m
-  if numerator % bx != 0 {
-    return nil
-  }
-
-  let n = numerator / bx
-
-  return (m, n)
-}
 #+end_src
 
 We can rearrange \((1)\) so that there is only one variable on the left:
@@ -973,7 +971,6 @@ The rest is just substitution.
 This runs really quickly. Not sure I needed to spend the time learning how to make sure the answers are whole numbers, but that's one of the reasons I do AoC -- to learn new things.
 
 As usual, the full code{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day13.swift)}}} is on Github.
-
 
 ** Advent of Code Day12: Garden Groups                :advent_of_code:swift:
 :PROPERTIES:
@@ -1321,7 +1318,6 @@ Change the number of steps to 75 instead of 25, and it still runs in millisecond
 #+end_src
 
 The full source, which is not much longer, is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day11.swift)}}}.
-
 
 ** Advent of Code Day10: Hoof It                      :advent_of_code:swift:
 :PROPERTIES:
@@ -1854,7 +1850,6 @@ Using the using =branch3= this would recurse with:
 
 And we don't need to do any specific checks because we've reached the base case of a single value that matches the target. That's why the check for branch3 is that the target has more digits that the value at the end of the list.
 
-
 ** Advent of Code Day6: Guard Gallivant               :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day6-guard-gallivant
@@ -1911,8 +1906,6 @@ And it plateaued at around 0.5s. Not as fast as the other solutions so far this 
 - I wasn't too enthused by today's challenge. I got a solution with some quick and dirty code and came back to it on and off during the day to see if I could do it better.
 - Writing these daily summaries is working out to keep me working on the puzzles in a reasonable time. I wanted to get a better solution before writing this. I may have postponed it otherwise.
 - The next two days are weekends, and from past experience, that's when things start getting harder.
-
-
 
 ** Advent of Code Day5: Print Queue                   :advent_of_code:swift:
 :PROPERTIES:
@@ -2039,7 +2032,6 @@ Since I already have a dictionary of what should come before what, I just used t
 *** Final Thoughts
 - This wasn't as fiddly as I thought it would be once I correctly encoded the rules.
 - My parsing code is taking up more and more space in my solutions, I really should extract them out to a utility library.
-
 
 ** Advent of Code Day4: Ceres Search                  :advent_of_code:swift:
 :PROPERTIES:
@@ -2251,8 +2243,6 @@ To get the solution I map this function onto the list of start points, filter th
 - A recursive solution for each start point would have been an option, but I saw a grid and thought "graph theory" so I went with this method.
 - For previous Advents, I've used different languages, and created a small library of utility functions. Perhaps now is the time to do it for my Swift solutions. I want to write some common parsers, and maybe a =Grid= type would have been useful for wrapping bounds-checks and getting neighbouring positions would have made this a little shorter.
 
-
-
 ** Advent of Code Day3: Mull It Over                  :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day3-mull-it-over
@@ -2396,8 +2386,6 @@ so the initial parsing done with Regular expressions:
 
   Only 3 days in and I'm struck by my lack of understanding of something. That's not necessarily a bad thing --- Finding out what I don't know is one of the reasons I do Advent of Code.
 
-
-
 ** Advent of Code Day2: Red-Nosed Reports             :advent_of_code:swift:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-day2-red-nosed-reports
@@ -2468,8 +2456,6 @@ Removing and checking the list again means another  $\mathcal{O}(n)$ operation, 
 Looking at the full problem input there are 1000 lines, each with around 10-ish numbers. Each line will require about 100 to 1000 operations. So the full input is around 1 million operations; not a lot.
 
 So, no need to do anything clever, and my solutions are still output in milliseconds.
-
-
 
 ** Advent of Code Day 1: Historian Hysteria           :advent_of_code:swift:
 :PROPERTIES:
@@ -2561,7 +2547,6 @@ After that it's just a case of calculating the values and summing them, which I 
 The full solution is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day01.swift)}}}.
 
 A simple puzzle that let me test my Swift environment, and this blog.
-
 
 ** Zip a Collection of Publishers                            :combine:swift:
 :PROPERTIES:
@@ -2751,7 +2736,6 @@ Thanks to [[https://twitter.com/_iains][Iain Smith]] who messaged me to point ou
 
 *** Code Repository
 The code for this is available as part of the [[https://github.com/CombineHarvesters/FoundationCombine][FoundationCombine]] Swift Package available on GitHub. Alongside the =CombineLatest= publisher which inspired it.
-
 
 ** An Easy Answer is not Always Best                            :simplicity:
 :PROPERTIES:
