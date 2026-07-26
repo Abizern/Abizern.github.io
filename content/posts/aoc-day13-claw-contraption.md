@@ -18,23 +18,23 @@ This one is just about maths. We have a machine with buttons to move a claw{{<si
 We are told that the machine should take no more than 100 button presses to move the claw. As I like to get the first part done quickly so that I can get to the second part, I wrote a brute for solution that just ran through 100 button presses until I found an answer.
 
 ```swift
-var minimumCost: Int? {
-  var minimumCost: Int?
-  for a in 0 ..< 100 {
-    for b in 0 ..< 100 {
-      let currentX = a * buttonA.dx + b * buttonB.dx
-      let currentY = a * buttonA.dy + b * buttonB.dy
+  var minimumCost: Int? {
+    var minimumCost: Int?
+    for a in 0 ..< 100 {
+      for b in 0 ..< 100 {
+        let currentX = a * buttonA.dx + b * buttonB.dx
+        let currentY = a * buttonA.dy + b * buttonB.dy
 
-      if currentX == prize.x, currentY == prize.y {
-        let cost = 3 * a + b
-        if minimumCost == nil || cost < minimumCost! {
-          minimumCost = cost
+        if currentX == prize.x, currentY == prize.y {
+          let cost = 3 * a + b
+          if minimumCost == nil || cost < minimumCost! {
+            minimumCost = cost
+          }
         }
       }
     }
+    return minimumCost
   }
-  return minimumCost
-}
 ```
 
 Even for all of the inputs, this hardly took any time. I'm not sure I even needed to worry about the minimum cost, these are straight line equations and will only have one solution.
@@ -42,9 +42,9 @@ Even for all of the inputs, this hardly took any time. I'm not sure I even neede
 Running the solution was a one liner.
 
 ```swift
-func part1() async throws -> Int {
-  machines.compactMap(\.costToWin).reduce(0, +)
-}
+  func part1() async throws -> Int {
+    machines.compactMap(\.costToWin).reduce(0, +)
+  }
 ```
 
 
@@ -74,25 +74,25 @@ But there is the Extended Euclidean Algorithm{{<sidenote>}}https://en.wikipedia.
 But since there are two equations, I didn't need to go that far, there are only a couple of checks that need to be done. Essentially the code to solve this returns a tuple of the number of presses required for A and B, or nil if there is no solution.
 
 ```swift
-public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
-  let aPrime = ay * bx - by * ax
-  let cPrime = cy * bx - by * cx
+  public func diophantineEEA(ax: Int, bx: Int, ay: Int, by: Int, cx: Int, cy: Int) -> (m: Int, n: Int)? {
+    let aPrime = ay * bx - by * ax
+    let cPrime = cy * bx - by * cx
 
-  if aPrime == 0 || cPrime % aPrime != 0 {
-    return nil
+    if aPrime == 0 || cPrime % aPrime != 0 {
+      return nil
+    }
+
+    let m = cPrime / aPrime
+
+    let numerator = cx - ax * m
+    if numerator % bx != 0 {
+      return nil
+    }
+
+    let n = numerator / bx
+
+    return (m, n)
   }
-
-  let m = cPrime / aPrime
-
-  let numerator = cx - ax * m
-  if numerator % bx != 0 {
-    return nil
-  }
-
-  let n = numerator / bx
-
-  return (m, n)
-}
 ```
 
 We can rearrange \\((1)\\) so that there is only one variable on the left:
@@ -122,24 +122,24 @@ This is where the conditions for Diophantine equations apply. obviously \\[a'\\]
 The rest is just substitution.
 
 ```swift
-var costToWin: Int? {
-  guard let (a, b) = diophantineEEA(
-          ax: buttonA.dx,
-          bx: buttonB.dx,
-          ay: buttonA.dy,
-          by: buttonB.dy,
-          cx: prize.x,
-          cy: prize.y
-        )
-  else {
-    return nil
+  var costToWin: Int? {
+    guard let (a, b) = diophantineEEA(
+            ax: buttonA.dx,
+            bx: buttonB.dx,
+            ay: buttonA.dy,
+            by: buttonB.dy,
+            cx: prize.x,
+            cy: prize.y
+          )
+    else {
+      return nil
+    }
+    return 3 * a + b
   }
-  return 3 * a + b
-}
 
-func part2() async throws -> Int {
-  machines.map(\.corrected).compactMap((\.costToWin)).reduce(0, +)
-}
+  func part2() async throws -> Int {
+    machines.map(\.corrected).compactMap((\.costToWin)).reduce(0, +)
+  }
 ```
 
 This runs really quickly. Not sure I needed to spend the time learning how to make sure the answers are whole numbers, but that's one of the reasons I do AoC -- to learn new things.

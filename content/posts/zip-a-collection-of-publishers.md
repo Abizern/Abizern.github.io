@@ -20,11 +20,11 @@ At a recent [NSCoder Night](https://nscodernightlondon.com){{<sidenote>}}A month
 For an app that I am developing for a client I fetch 24 images from 24 different URLs. I need all the images, and I need them to be ordered for the resulting object that I create to be considered complete. I want to be able to write a chain a like this at the call site:
 
 ```swift
-urls                  // [String]
-  .map(convertToURL)  // [URL]
-  .map(loadURL)       // [Publisher<Data, Error>]
-  .zip                // Publisher<[Data], Error>
-  .sink {...}         // Consume [Data] or handle the error
+  urls                  // [String]
+    .map(convertToURL)  // [URL]
+    .map(loadURL)       // [Publisher<Data, Error>]
+    .zip                // Publisher<[Data], Error>
+    .sink {...}         // Consume [Data] or handle the error
 ```
 
 
@@ -63,20 +63,20 @@ Create a struct which defines its `Output` and `Failure` matched to the _upstrea
 Let's start with the Publisher itself. Publishers are =struct=s. In my case it's just a container to hold the array of publishers so I constrain the generic type to be a collection of publishers. I also typealias the Output to be an array of the upstream publisher's Outputs and the Failure to be the upstream publisher's Failure type.
 
 ```swift
-public struct ZipCollection<Publishers>
-  where
-  Publishers: Collection,
-  Publishers.Element: Publisher
-{
-  public typealias Output = [Publishers.Element.Output]
-  public typealias Failure = Publishers.Element.Failure
+  public struct ZipCollection<Publishers>
+    where
+    Publishers: Collection,
+    Publishers.Element: Publisher
+  {
+    public typealias Output = [Publishers.Element.Output]
+    public typealias Failure = Publishers.Element.Failure
 
-  private let publishers: Publishers
+    private let publishers: Publishers
 
-  public init(_ publishers: Publishers) {
-    self.publishers = publishers
+    public init(_ publishers: Publishers) {
+      self.publishers = publishers
+    }
   }
-}
 ```
 
 
@@ -87,17 +87,17 @@ Make this struct conform to `Publisher` matching the `Output` and `Failure` to t
 Add an extension to make `ZiCollection` conform to `Publisher` and implement the required method. This will not compile yet, because the `Subscription` type hasn't been defined. Note that I'm constraining the downstream `Output` and `Failure` to `Zip`'s `Output` and `Failure`. The method simply creates a `Subscription` object and passes it along to the subscriber.
 
 ```swift
-extension ZipCollection: Publisher {
-  public func receive<Subscriber>(subscriber: Subscriber)
-    where
-    Subscriber: Combine.Subscriber,
-    Subscriber.Failure == Failure,
-    Subscriber.Input == Output
-  {
-    let subscription = Subscription(subscriber: subscriber, publishers: publishers)
-    subscriber.receive(subscription: subscription)
+  extension ZipCollection: Publisher {
+    public func receive<Subscriber>(subscriber: Subscriber)
+      where
+      Subscriber: Combine.Subscriber,
+      Subscriber.Failure == Failure,
+      Subscriber.Input == Output
+    {
+      let subscription = Subscription(subscriber: subscriber, publishers: publishers)
+      subscriber.receive(subscription: subscription)
+    }
   }
-}
 ```
 
 
@@ -106,67 +106,67 @@ extension ZipCollection: Publisher {
 Create a `Subscription` object to return to the downstream subscribers that does the work of transforming the _upstream_ `Output` and `Failure` to the _downstream_ `Input` and `Failure`
 
 ```swift
-extension ZipCollection {
-  fileprivate final class Subscription<Subscriber>: Combine.Subscription
-  where
-Subscriber: Combine.Subscriber,
-  Subscriber.Failure == Failure,
-  Subscriber.Input == Output
-  {
-    private let subscribers: [AnyCancellable]
-    private let queues: [Queue<Publishers.Element.Output>]
+  extension ZipCollection {
+    fileprivate final class Subscription<Subscriber>: Combine.Subscription
+    where
+  Subscriber: Combine.Subscriber,
+    Subscriber.Failure == Failure,
+    Subscriber.Input == Output
+    {
+      private let subscribers: [AnyCancellable]
+      private let queues: [Queue<Publishers.Element.Output>]
 
-    init(subscriber: Subscriber, publishers: Publishers) {
-      var count = publishers.count
-      var outputs = publishers.map { _ in Queue<Publishers.Element.Output>() }
-      queues = outputs
-      var completions = 0
-      var hasCompleted = false
-      let lock = NSLock()
+      init(subscriber: Subscriber, publishers: Publishers) {
+        var count = publishers.count
+        var outputs = publishers.map { _ in Queue<Publishers.Element.Output>() }
+        queues = outputs
+        var completions = 0
+        var hasCompleted = false
+        let lock = NSLock()
 
-      subscribers = publishers.enumerated().map { index, publisher in
-        publisher.sink(receiveCompletion: { completion in
-          lock.lock()
-          defer { lock.unlock() }
+        subscribers = publishers.enumerated().map { index, publisher in
+          publisher.sink(receiveCompletion: { completion in
+            lock.lock()
+            defer { lock.unlock() }
 
-          guard case .finished = completion else {
-            // Any failure causes the entire subscription to fail.
+            guard case .finished = completion else {
+              // Any failure causes the entire subscription to fail.
+              subscriber.receive(completion: completion)
+              hasCompleted = true
+              outputs.forEach { queue in
+                queue.removeAll()
+              }
+              return
+            }
+
+            completions += 1
+
+            guard completions == count else { return }
+
             subscriber.receive(completion: completion)
             hasCompleted = true
-            outputs.forEach { queue in
-              queue.removeAll()
-            }
-            return
-          }
+          }, receiveValue: { value in
+            lock.lock()
+            defer { lock.unlock() }
 
-          completions += 1
+            guard !hasCompleted else { return }
+            outputs[index].enqueue(value)
 
-          guard completions == count else { return }
+            guard (outputs.compactMap{ $0.peek() }.count) == count else { return }
 
-          subscriber.receive(completion: completion)
-          hasCompleted = true
-        }, receiveValue: { value in
-          lock.lock()
-          defer { lock.unlock() }
-
-          guard !hasCompleted else { return }
-          outputs[index].enqueue(value)
-
-          guard (outputs.compactMap{ $0.peek() }.count) == count else { return }
-
-          _ = subscriber.receive(outputs.compactMap({ $0.dequeue() }))
-        })
+            _ = subscriber.receive(outputs.compactMap({ $0.dequeue() }))
+          })
+        }
       }
-    }
 
-    public func cancel() {
-      subscribers.forEach { $0.cancel() }
-      queues.forEach { $0.removeAll() }
-    }
+      public func cancel() {
+        subscribers.forEach { $0.cancel() }
+        queues.forEach { $0.removeAll() }
+      }
 
-    public func request(_ demand: Subscribers.Demand) {}
+      public func request(_ demand: Subscribers.Demand) {}
+    }
   }
-}
 ```
 
 This is a bit more code, because this is where the actual work is being done.

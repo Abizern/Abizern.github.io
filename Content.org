@@ -8,6 +8,10 @@
 #+MACRO: skillsmatter @@html:{{<marginnote>}}[Video at Skills Matter]($1) (free login required){{</marginnote>}}@@
 #+MACRO: youtube @@html:{{<marginnote>}}[Video on YouTube]($1){{</marginnote>}}@@
 
+# These are used in Advent of Code posts. $1 is the year, $2 is the day (aocday) or the path within the repo after /main/ (aocsrc)
+#+MACRO: aocday @@html:{{<sidenote>}}https://adventofcode.com/$1/day/$2{{</sidenote>}}@@
+#+MACRO: aocsrc @@html:{{<sidenote>}}https://github.com/Abizern/aoc-swift-$1/blob/main/$2{{</sidenote>}}@@
+
 * Posts
 ** Advent of Code Day22: Monkey Market                :advent_of_code:swift:
 :PROPERTIES:
@@ -19,7 +23,7 @@
 Nothing fancy for this one, just a process to follow
 #+end_description
 
-After spending far too long yesterday unsuccessfully trying to get my head around nested recursions, today{{{sidenote(https://adventofcode.com/2024/day/22)}}} was something a little easier.
+After spending far too long yesterday unsuccessfully trying to get my head around nested recursions, today{{{aocday(2024,22)}}} was something a little easier.
 
 *** Part 1
 We are given a list of numbers and a transformation to apply to them.
@@ -130,7 +134,7 @@ I take the dictionary for each of the numbers and then join them together with a
 The result is just the largest value in the dictionary.
 
 *** Final Thoughts
-The full code is on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day22.swift)}}}.
+The full code is on Github{{{aocsrc(2024,Sources/Day22.swift)}}}.
 
 Unfortunately, I wasted a lot of time trying to debug my code before I realised that the example input for part 2 is not the same as the input for Part 1.
 
@@ -150,7 +154,7 @@ In which I give up on my beloved GameplayKit
 
 Took a while to get this done today. I started late and my solutions for both parts took around 20 seconds each. Good enough to get my answers, then I refactored it to get a better solution that ran both parts in less than 1s
 
-We have another maze{{{sidenote(https://adventofcode.com/2024/day/20)}}} problem, with the ability of cutting through walls to give shorter paths.
+We have another maze{{{aocday(2024,20)}}} problem, with the ability of cutting through walls to give shorter paths.
 
 *** Part 1
 Using GameplayKit which I seem to have taken to as my grid walking method of choice{{{marginnote(Unfortunately\, this was not to last past today.)}}} I created a grid. First I went through the nodes and found those that were walls. And also those that could be candidates for tunnelling through. I picked those as the ones that have three neighbours that are path points.
@@ -342,7 +346,7 @@ I then count the number of cheat point for each point, and sum them to get the a
 #+end_src
 
 *** Final Thoughts
-For context, the full code is on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day20.swift)}}}.
+For context, the full code is on Github{{{aocsrc(2024,Sources/Day20.swift)}}}.
 
 I'm a little sad I couldn't get the best out of GameplayKit. I assume that it's able to do far more things than these simple puzzles require it to do, so the overhead swamps any performance I can squeeze out by writing very specific code.
 
@@ -358,7 +362,7 @@ I'm also surprised that I've managed to get to day 20 only missing 3 stars.
 Another simple day. Did it fast, then left it alone
 #+end_description
 
-My worries for today's{{{sidenote(https://adventofcode.com/2024/day/19)}}} puzzle being very difficult were unfounded. Which makes me more concerned for the weekend.
+My worries for today's{{{aocday(2024,19)}}} puzzle being very difficult were unfounded. Which makes me more concerned for the weekend.
 
 We are supposed to find the number of towel patterns that are possible given a set of small towels, and then we are supposed to count the number that can be created.
 
@@ -447,7 +451,7 @@ While searching, I recurse on the shortened target. In Part 1 I used a set of so
 *** Final Thoughts
 It took less than 0.1s for each part and I think that's good enough.
 
-As usual, the full source is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day19.swift)}}}.
+As usual, the full source is available on Github{{{aocsrc(2024,Sources/Day19.swift)}}}.
 
 I still have some left-over challenges to finish and I should work on them rather than tidy this up to be better code. Yes, there is repetition, but that doesn't bother me as much as it seems to for other people. For more, see my Ted talk on why DRY is a scam{{{sidenote(There is no talk\, but I do think excessive application of DRY may lead to unwanted coupling)}}}.
 
@@ -463,14 +467,14 @@ I'm giving myself permission to slack off on this one.
 Did it fast, and then did it well.
 #+end_description
 
-I enjoyed today's puzzle{{{sidenote(https://adventofcode.com/2024/day/18)}}}.Not because it was reasonably easy, but because I managed to grind out a reasonable efficient solution after thinking about the problem for a little bit. This gave me as much satisfaction as when I figured out the Lanternfish{{{sidenote(The Lanternfish from 2021 https://adventofcode.com/2021/day/6)}}} problem.
+I enjoyed today's puzzle{{{aocday(2024,18)}}}.Not because it was reasonably easy, but because I managed to grind out a reasonable efficient solution after thinking about the problem for a little bit. This gave me as much satisfaction as when I figured out the Lanternfish{{{sidenote(The Lanternfish from 2021 https://adventofcode.com/2021/day/6)}}} problem.
 
 I also got to play with GameplayKit{{{sidenote(https://developer.apple.com/documentation/gameplaykit)}}} and Swift-algorithms{{{sidenote(https://github.com/apple/swift-algorithms)}}}.
 
 *** Part 1
 given a list of positions in a grid, we are supposed to find the shortest number of steps to go from one corner to another.
 
-Unlike Reindeer Maze{{{sidenote(https://adventofcode.com/2024/day/16)}}}, this is a pure path finding problem. I don't need to implement the search myself{{{sidenote(Not wanting to do this myself is one of the reasons I haven't even started solving Day 16 yet)}}}, I can just use the built in methods from GameplayKit.
+Unlike Reindeer Maze{{{aocday(2024,16)}}}, this is a pure path finding problem. I don't need to implement the search myself{{{sidenote(Not wanting to do this myself is one of the reasons I haven't even started solving Day 16 yet)}}}, I can just use the built in methods from GameplayKit.
 
 #+begin_src swift
   func part1() async throws -> String {
@@ -487,7 +491,7 @@ Unlike Reindeer Maze{{{sidenote(https://adventofcode.com/2024/day/16)}}}, this i
   }
 #+end_src
 
-The full code{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day18.swift)}}} has more context around the helper functions, but this is quite simple:
+The full code{{{aocsrc(2024,Sources/Day18.swift)}}} has more context around the helper functions, but this is quite simple:
 
 I create a =GKGridGraph= of the specified size, take the first 1024 points off my input list and remove those nodes from the graph. The =GKGridGraph= class takes care of creating a graph for all the remaining nodes, connecting them to their nearest neighbours. Removing nodes leaves me with graph of what cells are connected.
 
@@ -621,7 +625,7 @@ I'm a little concerned about tomorrow. Today was reasonably easy to just get an 
 Sometimes this feels like work
 #+end_description
 
-I actually got this{{{sidenote(https://adventofcode.com/2024/day/15)}}} done on the day, but haven't written it up because I'm not too happy with the way I got to my solution{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day15.swift)}}}.
+I actually got this{{{aocday(2024,15)}}} done on the day, but haven't written it up because I'm not too happy with the way I got to my solution{{{aocsrc(2024,Sources/Day15.swift)}}}.
 
 I'm not a fan of problems like this. You have a map and a process; it's just a case of writing out the process. Very much like the day job of a programmer - here's the current system, here are the new requirements: get on with it. At least with AoC I don't have to have my code pass anyone's review.
 
@@ -819,12 +823,12 @@ One of the only things that I managed to take from this was that I really though
 Easter Eggs in a Christmas themed puzzle?
 #+end_description
 
-I think this{{{sidenote(https://adventofcode.com/2024/day/14)}}} was a short one because part2 wasn't the easiest to come up with a definitive answer.
+I think this{{{aocday(2024,14)}}} was a short one because part2 wasn't the easiest to come up with a definitive answer.
 
 *** Part 1
 I think I'm getting better with parsing inputs, I got this into my system quickly and the rest of it was just writing a simulation for 100 iterations, counting locations and figuring out the safety score.
 
-It probably isn't worth putting the code itself here, but it's available{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day14.swift)}}} on Github.
+It probably isn't worth putting the code itself here, but it's available{{{aocsrc(2024,Sources/Day14.swift)}}} on Github.
 
 *** Part 2
 No way to write a test for this, and I wasn't going to cycle through all the possibilities to look for a tree. And there wasn't a description of the tree. Thinking it could have something to do with the solution to part 1, I looked at varies points, if any quadrants we empty, or symmetric, but it turned out that finding the *minimum of the safety score*, is the answer. You can see the output of my tree{{{sidenote([aoc-tree.txt](/img/2024/12/aoc-tree.txt))}}} as a text file.
@@ -841,7 +845,7 @@ The claw has chosen...
 
 I went on a bit of a math rabbit hole, but came up with a solution that runs quickly enough.
 
-This one is just about maths. We have a machine with buttons to move a claw{{{sidenote(https://adventofcode.com/2024/day/13)}}} and want to know a) can it be positioned in a particular place, and b) if it can be positioned, how much will it cost.
+This one is just about maths. We have a machine with buttons to move a claw{{{aocday(2024,13)}}} and want to know a) can it be positioned in a particular place, and b) if it can be positioned, how much will it cost.
 
 *** Part 1
 We are told that the machine should take no more than 100 button presses to move the claw. As I like to get the first part done quickly so that I can get to the second part, I wrote a brute for solution that just ran through 100 button presses until I found an answer.
@@ -970,7 +974,7 @@ The rest is just substitution.
 
 This runs really quickly. Not sure I needed to spend the time learning how to make sure the answers are whole numbers, but that's one of the reasons I do AoC -- to learn new things.
 
-As usual, the full code{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day13.swift)}}} is on Github.
+As usual, the full code{{{aocsrc(2024,Sources/Day13.swift)}}} is on Github.
 
 ** Advent of Code Day12: Garden Groups                :advent_of_code:swift:
 :PROPERTIES:
@@ -982,7 +986,7 @@ As usual, the full code{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blo
 I see flood fills everywhere.
 #+end_description
 
-Today's challenge{{{sidenote(https://adventofcode.com/2024/day/12)}}} felt very strange to me. I read the question. I knew what I had to do for Part 1, but I didn't feel very motivated to actually finish my implementation. I pushed through and eventually got it done, then spent too long thinking about how to do Part 2 before I realised that it was more or less the same approach as for part 1, just with different parameters.
+Today's challenge{{{aocday(2024,12)}}} felt very strange to me. I read the question. I knew what I had to do for Part 1, but I didn't feel very motivated to actually finish my implementation. I pushed through and eventually got it done, then spent too long thinking about how to do Part 2 before I realised that it was more or less the same approach as for part 1, just with different parameters.
 
 *** Part 1
 Given a grid of a farm and its crops we are supposed to work out some number based on the area and the perimeter.
@@ -1176,7 +1180,7 @@ Now I use the same flood filling to find all the connected edges. I take an edge
 
 And that gave me the correct answer.
 
-As usual, the full code for this is on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day12.swift)}}}. It felt like a slog, I don't mind telling you.
+As usual, the full code for this is on Github{{{aocsrc(2024,Sources/Day12.swift)}}}. It felt like a slog, I don't mind telling you.
 
 ** Advent of Code Day11: Plutonian Pebbles            :advent_of_code:swift:
 :PROPERTIES:
@@ -1188,7 +1192,7 @@ As usual, the full code for this is on Github{{{sidenote(https://github.com/Abiz
 I've seen this type of problem before
 #+end_description
 
-Today{{{sidenote(https://adventofcode.com/2024/day/11)}}} we had a list of stones that changed over time and we had to count how many there would be at the end of the count. I thought this sort of problem would come up, I've seen it before{{{sidenote(The Lanternfish from 2021 https://adventofcode.com/2021/day/6)}}}, and it is one of my favourite ones because it was the first time I saw the process for solving these puzzles.
+Today{{{aocday(2024,11)}}} we had a list of stones that changed over time and we had to count how many there would be at the end of the count. I thought this sort of problem would come up, I've seen it before{{{sidenote(The Lanternfish from 2021 https://adventofcode.com/2021/day/6)}}}, and it is one of my favourite ones because it was the first time I saw the process for solving these puzzles.
 
 The problem is that with the splitting of the stones (or the spawning in the case of lanternfish) the number of stones starts going up very quickly, though their identifying numbers lie mostly within a smaller range. In the case of lanternfish it was the number of days in the cycle, for the stones it today's puzzle, it is the identifier.
 
@@ -1317,7 +1321,7 @@ Change the number of steps to 75 instead of 25, and it still runs in millisecond
   }
 #+end_src
 
-The full source, which is not much longer, is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day11.swift)}}}.
+The full source, which is not much longer, is available on Github{{{aocsrc(2024,Sources/Day11.swift)}}}.
 
 ** Advent of Code Day10: Hoof It                      :advent_of_code:swift:
 :PROPERTIES:
@@ -1329,7 +1333,7 @@ The full source, which is not much longer, is available on Github{{{sidenote(htt
 Easier than expected, don't look a gift reindeer in the mouth.
 #+end_description
 
-I was expecting a Graph{{{sidenote(https://adventofcode.come/2024/day/9)}}} problem to show up around now, and it as a good time to create a utility =Grid= class to make working with these 2D graphs a little easier.
+I was expecting a Graph{{{aocday(2024,9)}}} problem to show up around now, and it as a good time to create a utility =Grid= class to make working with these 2D graphs a little easier.
 
 Unlike yesterday's{{{sidenote(https://abizern.dev/posts/aoc-day9-disk-fragmenter/)}}} debacle, I read the question carefully. I took care to only count one start -- end point as a route, which meant that part 2 was quite easy to do. I ended up refactoring both methods into one, but I'll show the original methods here because it might make for a clearer explanation
 
@@ -1446,7 +1450,7 @@ The code is a simplified version of that used for part 1
 #+end_src
 
 *** Tidying Up
-The code is so similar that I rewrote it to a single function. The full solution is on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day10.swift)}}}.
+The code is so similar that I rewrote it to a single function. The full solution is on Github{{{aocsrc(2024,Sources/Day10.swift)}}}.
 
 #+begin_src swift
   func trailCount(_ grid: Grid<Int>, start: Cell, allPaths: Bool = false) -> Int {
@@ -1507,9 +1511,9 @@ I'm not sure what the final part of the puzzle is about -- why is the reindeer m
 I should have read the question properly ☹️
 #+end_description
 
-I had a bit of difficulty today{{{sidenote(https://adventofcode.come/2024/day/9)}}} for two reasons. Firstly, Swift doesn't seem to be that good with deep recursions. I wanted to use a recursive solution, but my stack size grow too large. Secondly, I didn't read the requirements for part 2 properly, and it took me a while to figure out how to bubble files up into the empty slots.
+I had a bit of difficulty today{{{aocday(2024,9)}}} for two reasons. Firstly, Swift doesn't seem to be that good with deep recursions. I wanted to use a recursive solution, but my stack size grow too large. Secondly, I didn't read the requirements for part 2 properly, and it took me a while to figure out how to bubble files up into the empty slots.
 
-I eventually got it done with an imperative loop{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day09.swift)}}}
+I eventually got it done with an imperative loop{{{aocsrc(2024,Sources/Day09.swift)}}}
 
 *** Part 1
 Given a representation for a file system with file blocks and empty spaces, we are supposed to move files from the back into the empty spaces in the front and calculate a checksum.
@@ -1674,11 +1678,11 @@ Reading the question is important. I'm usually diligent about it, but for some r
 Maybe this explains my spotty WiFi coverage
 #+end_description
 
-We are given a grid of antennas{{{sidenote(https://adventofcode.come/2024/day/8)}}} and we're supposed to find which ones line up and find points that extend from them, and count the unique positions where they occur.
+We are given a grid of antennas{{{aocday(2024,8)}}} and we're supposed to find which ones line up and find points that extend from them, and count the unique positions where they occur.
 
 There aren't that may points. I wrote, what I thought was a quick and dirty solution, but both parts ran in about 1ms, so I didn't think it was worth doing much cleaning up.
 
-I'm not going to show the code here, if you'd like to see it, the solution is online{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day08.swift)}}}. I'll concentrate on the reasoning.
+I'm not going to show the code here, if you'd like to see it, the solution is online{{{aocsrc(2024,Sources/Day08.swift)}}}. I'll concentrate on the reasoning.
 
 
 *** Part 1
@@ -1733,13 +1737,13 @@ It's turtles all the way down.
 
 Recursion can make your head hurt, but it can simplify some classes of problems once you get used to the idea of turtles{{{sidenote(https://en.wikipedia.org/wiki/Turtles_all_the_way_down)}}} all the way down.
 
-Today{{{sidenote(https://adventofcode.com/2024/day/7)}}} was about trying to validate lists of numbers according to simple rules.
+Today{{{aocday(2024,7)}}} was about trying to validate lists of numbers according to simple rules.
 
 It isn't possible to just insert all combinations of the operators, because for 2 numbers there are 2 possibilities. For 3 numbers there are 4 possibilities. For 4 numbers 8. Essentially: it's $\mathcal{O}(2^{n-1})$ which grows really quickly. A quick look at the input shows that some lines have 10 values. So A recursive solution which fails quickly is a better idea.
 
 If I had read the question properly and understood the meaning of *always evaluated left-to-right* I might have saved myself some trouble.
 
-I don't normally include a lot of tests in my solutions - I test the parsing and the example answers, and the correct result is another test. That's usually enough. My solution{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day04.swift)}}} I had to write tests{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Tests/Day07Tests.swift#L22-L35)}}} for my validation code, which pointed out that I was taking numbers from the wrong end.
+I don't normally include a lot of tests in my solutions - I test the parsing and the example answers, and the correct result is another test. That's usually enough. My solution{{{aocsrc(2024,Sources/Day04.swift)}}} I had to write tests{{{aocsrc(2024,Tests/Day07Tests.swift#L22-L35)}}} for my validation code, which pointed out that I was taking numbers from the wrong end.
 
 *** Part 1
 There are only two operations that can be applied to successive numbers, addition and subtraction.
@@ -1860,7 +1864,7 @@ And we don't need to do any specific checks because we've reached the base case 
 💂‍♀️ Please don't touch the reins: The elves may bite!
 #+end_description
 
-Another{{{sidenote(https://adventofcode.com/2024/day/6)}}} grid traversal and the longest solution{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day06.swift)}}} I've had to write so far.
+Another{{{aocday(2024,6)}}} grid traversal and the longest solution{{{aocsrc(2024,Sources/Day06.swift)}}} I've had to write so far.
 
 Not just the longest solution; my first attempt at part 2 took around 6s to run, I managed to get this to around 0.5s. Maybe I could be more efficient, maybe I'm missing the trick to make this faster.
 
@@ -1919,7 +1923,7 @@ PC Load Letter?! What 🤬 does that mean?
 
 I made a couple of mis-steps that slowed me down a little.
 
-This was another day{{{sidenote(https://adventofcode/2024/day/5)}}} where part 2 wasn't as much of a jump in difficulty, but needed careful reading; only add the middle values for lists that need sorting. You can see my full solution on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day05.swift)}}}.
+This was another day{{{aocday(2024,5)}}} where part 2 wasn't as much of a jump in difficulty, but needed careful reading; only add the middle values for lists that need sorting. You can see my full solution on Github{{{aocsrc(2024,Sources/Day05.swift)}}}.
 
 *** Part 1
 Validate a list of numbers given a set of rules.
@@ -2043,9 +2047,9 @@ Since I already have a dictionary of what should come before what, I just used t
 I love the smell of Graph Theory in the morning. It smells like — coffee.
 #+end_description
 
-Today{{{sidenote(https://adventofcode.com/2024/day/4)}}} wasn't so much about graph theory once you read the questions, but I took a similar approach to solving the problem. Parsing was trivial; just read a nested array of Characters.
+Today{{{aocday(2024,4)}}} wasn't so much about graph theory once you read the questions, but I took a similar approach to solving the problem. Parsing was trivial; just read a nested array of Characters.
 
-My solution can be found on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day04.swift)}}}
+My solution can be found on Github{{{aocsrc(2024,Sources/Day04.swift)}}}
 
 *** Part 1
 The word search game is about finding the word "XMAS" in any direction.
@@ -2253,11 +2257,11 @@ To get the solution I map this function onto the list of start points, filter th
 Only day 3 and I'm already feeling inadequate 🙁
 #+end_description
 
-Normally it takes a few more days before I feel my Advent of Code inadequacy, but it struck on day 3{{{sidenote(https://adventofcode.com/2024/day/3)}}} instead. Parsing the input into a data structure that I could work with was the hardest part of today's challenge.
+Normally it takes a few more days before I feel my Advent of Code inadequacy, but it struck on day 3{{{aocday(2024,3)}}} instead. Parsing the input into a data structure that I could work with was the hardest part of today's challenge.
 
 I try to use the Swift-Parsing package{{{sidenote(https://github.com/pointfreeco/swift-parsing/)}}} because I like the way it works, and also as an excuse to get better at using it. My first attempts at using it for Part 1 failed, so rather than bang my head any longer than I needed to, I resorted to using Swift's new =Regex= functionality. This way I could get to see what part 2 looked like and have an idea of all the parsing requirements for the challenge.
 
-Leaving aside the parsing for now, I'll discuss my solutions{{{sidenote(The full solution I came up with is available on https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day03.swift)}}}
+Leaving aside the parsing for now, I'll discuss my solutions{{{aocsrc(2024,Sources/Day03.swift)}}}
 
 *** Part 1
 The challenge is to check for substrings in a particular form from which 2 numbers can be extracted. These numbers were to be multiplied and summed together.
@@ -2396,7 +2400,7 @@ so the initial parsing done with Regular expressions:
 Use the (brute) force, Luke.
 #+end_description
 
-Today's{{{sidenote(https://adventofcode.com/2024/day/2)}}} challenge was only slightly more complicated than yesterday's, and one where brute(ish) force was enough. My solution is on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day02.swift)}}}.
+Today's{{{aocday(2024,2)}}} challenge was only slightly more complicated than yesterday's, and one where brute(ish) force was enough. My solution is on Github{{{aocsrc(2024,Sources/Day02.swift)}}}.
 
 *** Part 1
 To check if a report (a list of numbers) is safe; see if they are all increasing or all decreasing and the difference is inclusively between 1 and 3.
@@ -2472,7 +2476,7 @@ I've normally done these in languages that I don't use for work --- Common-lisp 
 
 I created a template package{{{sidenote(https://github.com/Abizern/swift-aoc-starter-template)}}}, based on one provided by Apple, for Swift solutions.
 
-As expected the first day's{{{sidenote(https://adventofcode.com/2024/day/1)}}} problem is fairly easy and a way to make sure that one's environment is set up correctly and works.
+As expected the first day's{{{aocday(2024,1)}}} problem is fairly easy and a way to make sure that one's environment is set up correctly and works.
 
 This is the 10th anniversary event, and since it involves a missing historian, I think there may be throwbacks to problems from previous years.
 
@@ -2544,7 +2548,7 @@ After that it's just a case of calculating the values and summing them, which I 
   }
 #+end_src
 
-The full solution is available on Github{{{sidenote(https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day01.swift)}}}.
+The full solution is available on Github{{{aocsrc(2024,Sources/Day01.swift)}}}.
 
 A simple puzzle that let me test my Swift environment, and this blog.
 

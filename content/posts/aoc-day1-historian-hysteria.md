@@ -31,30 +31,30 @@ The problem is to find the difference between terms in the sorted list and sum t
 To get the solution quickly I did the natural thing of sorting the two lists, mapping the differences and summing them:
 
 ```swift
-func part1() async throws -> Int {
-  // lists is an ([Int], [Int]) of the input
-  zip(lists.0.sorted(), lists.1.sorted()).map { left, right in
-    abs(left - right)
+  func part1() async throws -> Int {
+    // lists is an ([Int], [Int]) of the input
+    zip(lists.0.sorted(), lists.1.sorted()).map { left, right in
+      abs(left - right)
+    }
+    .reduce(0, +)
   }
-  .reduce(0, +)
-}
 ```
 
 After I managed to solve both parts I came back to this and tried something different: rather than sorting the lists, I used the Heap structure from the Swift-Collections package{{<sidenote>}}https://github.com/apple/swift-collections{{</sidenote>}}. I initialised two heaps and used the `removeMin()` method on each to successively get the smallest value from each list:
 
 ```swift
-func part1() async throws -> Int {
-  let (left, right) = lists
-  var leftHeap = Heap(left)
-  var rightHeap = Heap(right)
+  func part1() async throws -> Int {
+    let (left, right) = lists
+    var leftHeap = Heap(left)
+    var rightHeap = Heap(right)
 
-  var result: Int = 0
-  while !leftHeap.isEmpty && !rightHeap.isEmpty {
-    result += abs(leftHeap.removeMin() - rightHeap.removeMin())
+    var result: Int = 0
+    while !leftHeap.isEmpty && !rightHeap.isEmpty {
+      result += abs(leftHeap.removeMin() - rightHeap.removeMin())
+    }
+
+    return result
   }
-
-  return result
-}
 ```
 
 This may have been slightly faster.
@@ -65,31 +65,31 @@ This may have been slightly faster.
 This part required counting the number of occurrences of each number in the second list. Since I had to use this as a lookup table I created a dictionary by using the handy initialiser on `Dictionary` that takes a grouping. For example, given the example list of `[4, 3, 5, 3, 9, 3]` we can get a dictionary of the groupings with:
 
 ```swift
-Dictionary(grouping: input, by: { $0 })
-// -> [3: [3, 3, 3], 9: [9], 5: [5], 4: [4]]
+  Dictionary(grouping: input, by: { $0 })
+  // -> [3: [3, 3, 3], 9: [9], 5: [5], 4: [4]]
 ```
 
 and by mapping the values to counts we can get a lookup table for the frequencies:
 
 ```swift
-Dictionary(grouping: input, by: { $0 }).mapValues(\.count)
-// -> [4: 1, 9: 1, 5: 1, 3: 3]
+  Dictionary(grouping: input, by: { $0 }).mapValues(\.count)
+  // -> [4: 1, 9: 1, 5: 1, 3: 3]
 ```
 
 After that it's just a case of calculating the values and summing them, which I did in a single reduce:
 
 ```swift
-func part2() async throws -> Int {
-  let (left, right) = lists
-  let counts = Dictionary(grouping: right, by: { $0 }).mapValues(\.count)
+  func part2() async throws -> Int {
+    let (left, right) = lists
+    let counts = Dictionary(grouping: right, by: { $0 }).mapValues(\.count)
 
-  let simililarities = left.reduce(into: 0) { partialResult, l in
-    let n = counts[l, default: 0]
-    partialResult += l * n
+    let simililarities = left.reduce(into: 0) { partialResult, l in
+      let n = counts[l, default: 0]
+      partialResult += l * n
+    }
+
+    return simililarities
   }
-
-  return simililarities
-}
 ```
 
 The full solution is available on Github{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day01.swift{{</sidenote>}}.

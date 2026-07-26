@@ -26,22 +26,22 @@ There are only two operations that can be applied to successive numbers, additio
 So I extracted each row into a convenient type with an internal check for validity:
 
 ```swift
-struct Calibration: Equatable, Sendable {
-  let target: Int
-  let values: [Int]
+  struct Calibration: Equatable, Sendable {
+    let target: Int
+    let values: [Int]
 
-  var isValid: Bool {
-    // ...
+    var isValid: Bool {
+      // ...
+    }
   }
-}
 ```
 
 And the answer is a filter, map and reduce:
 
 ```swift
-func part1() async throws -> Int {
-  calibrations.filter(\.isValid).map(\.target).reduce(0, +)
-}
+  func part1() async throws -> Int {
+    calibrations.filter(\.isValid).map(\.target).reduce(0, +)
+  }
 ```
 
 The thought process with recursion is to consider:
@@ -60,20 +60,20 @@ To check if addition works, we see if the target value is bigger than the last v
 So there are two possibilities to check if we aren't at the base case. Recursion means calling the same function again with new parameters that will get closer to the base case. So we check them both, and if either of them is true, the entire check is true: The test operation is encoded in the new target, we either divide by or subtract the last value in the list:
 
 ```swift
-var isValidWithConcoatenation: Bool {
-   canConcatenate(target, values: values[...])
- }
+   var isValidWithConcoatenation: Bool {
+      canConcatenate(target, values: values[...])
+    }
 
- private func canMakeTarget(_ target: Int, values: Array<Int>.SubSequence) -> Bool {
-   var values = values
-   guard let nextValue = values.popLast() else { fatalError("Out of bounds") }
-   guard values.count > 0 else { return target == nextValue }
+    private func canMakeTarget(_ target: Int, values: Array<Int>.SubSequence) -> Bool {
+      var values = values
+      guard let nextValue = values.popLast() else { fatalError("Out of bounds") }
+      guard values.count > 0 else { return target == nextValue }
 
-   let branch1 = target % nextValue == 0 && canMakeTarget(target / nextValue, values: values)
-   let branch2 = target > nextValue && canMakeTarget(target - nextValue, values: values)
+      let branch1 = target % nextValue == 0 && canMakeTarget(target / nextValue, values: values)
+      let branch2 = target > nextValue && canMakeTarget(target - nextValue, values: values)
 
-   return branch1 || branch2
- }
+      return branch1 || branch2
+    }
 ```
 
 Since this is an OR check, if branch1 passes there is no need to check branch2. Inlining the two checks was marginally faster, but I prefer the readability of having the two branches.
@@ -86,35 +86,35 @@ With the new operation of concatenation it's a little bit trickier. But the same
 The base case for concatenation is that the string representation of the target ends with the string representation of the last value. And the inverse to apply to the new target is to remove the number from the suffix. The new validation functions are:
 
 ```swift
-var isValidWithConcoatenation: Bool {
-  canConcatenate(target, values: values[...])
-}
-
-private func canConcatenate(_ target: Int, values: Array<Int>.SubSequence) -> Bool {
-  var values = values
-  guard let nextValue = values.popLast() else { fatalError("Out of bounds") }
-  guard values.count > 0 else { return target == nextValue }
-
-  let strTarget = String(target)
-  let strNextValue = String(nextValue)
-
-  let branch1 = target % nextValue == 0 && canConcatenate(target / nextValue, values: values)
-  let branch2 = target > nextValue && canConcatenate(target - nextValue, values: values)
-  let branch3 = strTarget.count > strNextValue.count
-    && strTarget.hasSuffix(strNextValue)
-    && canConcatenate(strTarget.remove(strNextValue), values: values)
-
-  return branch1 || branch2 || branch3
-}
-
-// Convenience extension
-extension String {
-  func remove(_ suffix: String) -> Int {
-    let suffixLCount = suffix.count
-    let newStr = self[..<index(endIndex, offsetBy: -suffixLCount)]
-    return Int(newStr)!
+  var isValidWithConcoatenation: Bool {
+    canConcatenate(target, values: values[...])
   }
-}
+
+  private func canConcatenate(_ target: Int, values: Array<Int>.SubSequence) -> Bool {
+    var values = values
+    guard let nextValue = values.popLast() else { fatalError("Out of bounds") }
+    guard values.count > 0 else { return target == nextValue }
+
+    let strTarget = String(target)
+    let strNextValue = String(nextValue)
+
+    let branch1 = target % nextValue == 0 && canConcatenate(target / nextValue, values: values)
+    let branch2 = target > nextValue && canConcatenate(target - nextValue, values: values)
+    let branch3 = strTarget.count > strNextValue.count
+      && strTarget.hasSuffix(strNextValue)
+      && canConcatenate(strTarget.remove(strNextValue), values: values)
+
+    return branch1 || branch2 || branch3
+  }
+
+  // Convenience extension
+  extension String {
+    func remove(_ suffix: String) -> Int {
+      let suffixLCount = suffix.count
+      let newStr = self[..<index(endIndex, offsetBy: -suffixLCount)]
+      return Int(newStr)!
+    }
+  }
 ```
 
 The trick here is to realise that it only applies when there are two values left to check: for example:
@@ -124,7 +124,7 @@ The trick here is to realise that it only applies when there are two values left
 Using the using `branch3` this would recurse with:
 
 ```swift
-canConcatenate(13, values: [19])
+  canConcatenate(13, values: [19])
 ```
 
 And we don't need to do any specific checks because we've reached the base case of a single value that matches the target. That's why the check for branch3 is that the target has more digits that the value at the end of the list.

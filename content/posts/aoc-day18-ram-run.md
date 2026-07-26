@@ -20,18 +20,18 @@ given a list of positions in a grid, we are supposed to find the shortest number
 Unlike Reindeer Maze{{<sidenote>}}https://adventofcode.com/2024/day/16{{</sidenote>}}, this is a pure path finding problem. I don't need to implement the search myself{{<sidenote>}}Not wanting to do this myself is one of the reasons I haven't even started solving Day 16 yet{{</sidenote>}}, I can just use the built in methods from GameplayKit.
 
 ```swift
-func part1() async throws -> String {
-  let graph = createGraph(width: 71, height: 71)
-  let points = points.prefix(1024)
-  remove(points: points, from: graph)
+  func part1() async throws -> String {
+    let graph = createGraph(width: 71, height: 71)
+    let points = points.prefix(1024)
+    remove(points: points, from: graph)
 
-  let start = graph.node(atGridPosition: vector_int2(0, 0))!
-  let end = graph.node(atGridPosition: vector_int2(70, 70))!
+    let start = graph.node(atGridPosition: vector_int2(0, 0))!
+    let end = graph.node(atGridPosition: vector_int2(70, 70))!
 
-  let path = graph.findPath(from: start, to: end)
+    let path = graph.findPath(from: start, to: end)
 
-  return "\(path.count - 1)" // steps, is one less than length of path
-}
+    return "\(path.count - 1)" // steps, is one less than length of path
+  }
 ```
 
 The full code{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day18.swift{{</sidenote>}} has more context around the helper functions, but this is quite simple:
@@ -53,24 +53,24 @@ Now we have to use the full input list of points and find which one completely c
 I wasn't sure if it would work in a reasonable amount of time, but it was quick to write so I gave it a try:
 
 ```swift
-func bruteForce() -> String {
-  let graph = createGraph(width: 71, height: 71)
-  let start = graph.node(atGridPosition: vector_int2(0, 0))!
-  let end = graph.node(atGridPosition: vector_int2(70, 70))!
+  func bruteForce() -> String {
+    let graph = createGraph(width: 71, height: 71)
+    let start = graph.node(atGridPosition: vector_int2(0, 0))!
+    let end = graph.node(atGridPosition: vector_int2(70, 70))!
 
-  remove(points: points.prefix(1024), from: graph)
+    remove(points: points.prefix(1024), from: graph)
 
-  for point in points.dropFirst(1024) {
-    let node = graph.node(atGridPosition: vector_int2(Int32(point.1), Int32(point.0)))!
-    graph.remove([node])
+    for point in points.dropFirst(1024) {
+      let node = graph.node(atGridPosition: vector_int2(Int32(point.1), Int32(point.0)))!
+      graph.remove([node])
 
-    if graph.findPath(from: start, to: end).isEmpty {
-      return "\(point.0),\(point.1)"
+      if graph.findPath(from: start, to: end).isEmpty {
+        return "\(point.0),\(point.1)"
+      }
     }
-  }
 
-  return "Anser not found"
-}
+    return "Anser not found"
+  }
 ```
 
 I create a graph, and the start and end points and then remove the first 1024 points from the graph. I know this doesn't disconnect the start and end because I've already worked out how many steps it takes.
@@ -93,22 +93,22 @@ The swift-algorithms package has a method on arrays called `partioningIndex` whi
 My solution looks like this:
 
 ```swift
-func binarySearch() -> String {
-  let index = points.partitioningIndex { point in
-    let graph = createGraph(width: 71, height: 71)
-    let start = graph.node(atGridPosition: vector_int2(0, 0))!
-    let end = graph.node(atGridPosition: vector_int2(70, 70))!
-    let searchIndex = points.firstIndex { $0 == point }!
-    let slice = points.prefix(through: searchIndex)
-    remove(points: slice, from: graph)
+  func binarySearch() -> String {
+    let index = points.partitioningIndex { point in
+      let graph = createGraph(width: 71, height: 71)
+      let start = graph.node(atGridPosition: vector_int2(0, 0))!
+      let end = graph.node(atGridPosition: vector_int2(70, 70))!
+      let searchIndex = points.firstIndex { $0 == point }!
+      let slice = points.prefix(through: searchIndex)
+      remove(points: slice, from: graph)
 
-    return graph.findPath(from: start, to: end).isEmpty
+      return graph.findPath(from: start, to: end).isEmpty
+    }
+
+    let point = points[index]
+
+    return "\(point.0),\(point.1)"
   }
-
-  let point = points[index]
-
-  return "\(point.0),\(point.1)"
-}
 ```
 
 Within the predicate, I create a graph, remove all the nodes up to and including the point being examined, and see if a path can be found to the end point. This does the search for me. I use the returned index to get the value to use as the result.
@@ -121,31 +121,31 @@ This runs faster, about 13s. This is okay, but I was sure I could do better.
 I want to minimise the number of times I have to look for a path. And I had that moment of clarity that, as programmers, makes us feel as if we are doing what we were meant to do.
 
 ```swift
-func obstacle() -> String {
-  let graph = createGraph(width: 71, height: 71)
-  let start = graph.node(atGridPosition: vector_int2(0, 0))!
-  let end = graph.node(atGridPosition: vector_int2(70, 70))!
+  func obstacle() -> String {
+    let graph = createGraph(width: 71, height: 71)
+    let start = graph.node(atGridPosition: vector_int2(0, 0))!
+    let end = graph.node(atGridPosition: vector_int2(70, 70))!
 
-  remove(points: points.prefix(1024), from: graph)
-  var path = graph.findPath(from: start, to: end)
+    remove(points: points.prefix(1024), from: graph)
+    var path = graph.findPath(from: start, to: end)
 
-  for point in points.dropFirst(1024) {
-    let node = graph.node(atGridPosition: vector_int2(Int32(point.1), Int32(point.0)))!
-    graph.remove([node])
+    for point in points.dropFirst(1024) {
+      let node = graph.node(atGridPosition: vector_int2(Int32(point.1), Int32(point.0)))!
+      graph.remove([node])
 
-    guard path.contains(node) else { continue }
+      guard path.contains(node) else { continue }
 
-    let newPath = graph.findPath(from: start, to: end)
+      let newPath = graph.findPath(from: start, to: end)
 
-    if newPath.isEmpty {
-      return "\(point.0),\(point.1)"
-    } else {
-      path = newPath
+      if newPath.isEmpty {
+        return "\(point.0),\(point.1)"
+      } else {
+        path = newPath
+      }
     }
-  }
 
-  return "Answer not found"
-}
+    return "Answer not found"
+  }
 ```
 
 I set up the graph, start and end points as usual, and remove the first 1024 nodes from the input. I know that a path exists at this point, so I cache it in the `path` variable.

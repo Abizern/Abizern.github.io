@@ -110,31 +110,31 @@ This took a lot more thought before I bit the bullet and wrote the code.
 I defined a struct to represent and edge for a plot:
 
 ```swift
-struct Edge: Hashable {
-   enum Direction: Hashable {
-     case top, right, bottom, left
-   }
+ struct Edge: Hashable {
+    enum Direction: Hashable {
+      case top, right, bottom, left
+    }
 
-   let position: vector_int2
-   let direction: Direction
+    let position: vector_int2
+    let direction: Direction
 
-   var neighbours: [Edge] {
-     let x = position.x
-     let y = position.y
-     switch direction {
-     case .top, .bottom:
-       return [
-         Edge(position: vector_int2(x: x + 1, y: y), direction: direction),
-         Edge(position: vector_int2(x: x - 1, y: y), direction: direction),
-       ]
-     case .right, .left:
-       return [
-         Edge(position: vector_int2(x: x, y: y + 1), direction: direction),
-         Edge(position: vector_int2(x: x, y: y - 1), direction: direction),
-       ]
-     }
-   }
- }
+    var neighbours: [Edge] {
+      let x = position.x
+      let y = position.y
+      switch direction {
+      case .top, .bottom:
+        return [
+          Edge(position: vector_int2(x: x + 1, y: y), direction: direction),
+          Edge(position: vector_int2(x: x - 1, y: y), direction: direction),
+        ]
+      case .right, .left:
+        return [
+          Edge(position: vector_int2(x: x, y: y + 1), direction: direction),
+          Edge(position: vector_int2(x: x, y: y - 1), direction: direction),
+        ]
+      }
+    }
+  }
 ```
 
 This also gives me the neighbours I expect to have in horizontal and vertical directions.
@@ -142,66 +142,66 @@ This also gives me the neighbours I expect to have in horizontal and vertical di
 I already have a function for working out a connected region, and I use that to generate all the plot edges:
 
 ```swift
-func edges(for region: Set<Node>) -> Set<Edge> {
-  var edges: Set<Edge> = []
+  func edges(for region: Set<Node>) -> Set<Edge> {
+    var edges: Set<Edge> = []
 
-  for node in region {
-    let position = node.gridPosition
-    let above = position.above
-    let below = position.below
-    let left = position.left
-    let right = position.right
+    for node in region {
+      let position = node.gridPosition
+      let above = position.above
+      let below = position.below
+      let left = position.left
+      let right = position.right
 
-    let neighbours = node.connectedNodes.map { $0 as! Node }.map(\.gridPosition)
-    if !neighbours.contains(above) {
-      edges.insert(Edge(position: position, direction: .top))
+      let neighbours = node.connectedNodes.map { $0 as! Node }.map(\.gridPosition)
+      if !neighbours.contains(above) {
+        edges.insert(Edge(position: position, direction: .top))
+      }
+
+      if !neighbours.contains(below) {
+        edges.insert(Edge(position: position, direction: .bottom))
+      }
+
+      if !neighbours.contains(left) {
+        edges.insert(Edge(position: position, direction: .left))
+      }
+
+      if !neighbours.contains(right) {
+        edges.insert(Edge(position: position, direction: .right))
+      }
     }
-
-    if !neighbours.contains(below) {
-      edges.insert(Edge(position: position, direction: .bottom))
-    }
-
-    if !neighbours.contains(left) {
-      edges.insert(Edge(position: position, direction: .left))
-    }
-
-    if !neighbours.contains(right) {
-      edges.insert(Edge(position: position, direction: .right))
-    }
+    return edges
   }
-  return edges
-}
 ```
 
 Now I use the same flood filling to find all the connected edges. I take an edge off the list, and generate it's expected neighbours and count them up.
 
 ```swift
-func sides(for region: Set<Node>) -> Int {
-  let edges = edges(for: region)
-  var totalSides = 0
-  var seen = Set<Edge>()
+  func sides(for region: Set<Node>) -> Int {
+    let edges = edges(for: region)
+    var totalSides = 0
+    var seen = Set<Edge>()
 
-  for edge in edges {
-    guard !seen.contains(edge) else { continue }
-    var stack = Deque<Edge>([edge])
+    for edge in edges {
+      guard !seen.contains(edge) else { continue }
+      var stack = Deque<Edge>([edge])
 
-    while !stack.isEmpty {
-      let current = stack.removeFirst()
-      guard !seen.contains(current) else { continue }
-      seen.insert(current)
+      while !stack.isEmpty {
+        let current = stack.removeFirst()
+        guard !seen.contains(current) else { continue }
+        seen.insert(current)
 
-      for neighbour in current.neighbours {
-        guard !seen.contains(neighbour) else { continue }
-        if edges.contains(neighbour) {
-          stack.append(neighbour)
+        for neighbour in current.neighbours {
+          guard !seen.contains(neighbour) else { continue }
+          if edges.contains(neighbour) {
+            stack.append(neighbour)
+          }
         }
       }
-    }
 
-    totalSides += 1
+      totalSides += 1
+    }
+    return totalSides
   }
-  return totalSides
-}
 ```
 
 And that gave me the correct answer.

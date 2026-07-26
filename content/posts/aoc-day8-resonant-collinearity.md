@@ -8,7 +8,7 @@ meta = true
 math = false
 +++
 
-We are given a grid of antennas{{<sidenote>}}https://adventofcode.come/2024/day/8{{</sidenote>}} and we're supposed to find which ones line up and find points that extend from them, and count the unique positions where they occur.
+We are given a grid of antennas{{<sidenote>}}https://adventofcode.com/2024/day/8{{</sidenote>}} and we're supposed to find which ones line up and find points that extend from them, and count the unique positions where they occur.
 
 There aren't that may points. I wrote, what I thought was a quick and dirty solution, but both parts ran in about 1ms, so I didn't think it was worth doing much cleaning up.
 

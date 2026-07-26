@@ -8,7 +8,7 @@ meta = true
 math = false
 +++
 
-I had a bit of difficulty today{{<sidenote>}}https://adventofcode.come/2024/day/9{{</sidenote>}} for two reasons. Firstly, Swift doesn't seem to be that good with deep recursions. I wanted to use a recursive solution, but my stack size grow too large. Secondly, I didn't read the requirements for part 2 properly, and it took me a while to figure out how to bubble files up into the empty slots.
+I had a bit of difficulty today{{<sidenote>}}https://adventofcode.com/2024/day/9{{</sidenote>}} for two reasons. Firstly, Swift doesn't seem to be that good with deep recursions. I wanted to use a recursive solution, but my stack size grow too large. Secondly, I didn't read the requirements for part 2 properly, and it took me a while to figure out how to bubble files up into the empty slots.
 
 I eventually got it done with an imperative loop{{<sidenote>}}https://github.com/Abizern/aoc-swift-2024/blob/main/Sources/Day09.swift{{</sidenote>}}
 
@@ -20,37 +20,37 @@ Given a representation for a file system with file blocks and empty spaces, we a
 I created a type to represent either a file block or a space, and this turned out to be helpful for part 2:
 
 ```swift
-enum Descriptor: Equatable, CustomStringConvertible {
-  case file(id: Int, length: Int)
-  case empty(length: Int)
+  enum Descriptor: Equatable, CustomStringConvertible {
+    case file(id: Int, length: Int)
+    case empty(length: Int)
 
-  var expanded: [Int] {
-    switch self {
-    case .file(let id, let length):
-      Array(repeating: id, count: length)
-    case .empty(let length):
-      Array(repeating: Int.min, count: length)
+    var expanded: [Int] {
+      switch self {
+      case .file(let id, let length):
+        Array(repeating: id, count: length)
+      case .empty(let length):
+        Array(repeating: Int.min, count: length)
+      }
+    }
+
+    var fileId: Int {
+      switch self {
+      case .file(id: let id, length: _):
+        id
+      case .empty(length: _):
+        Int.min
+      }
+    }
+
+    var length: Int {
+      switch self {
+      case .file(_, let length):
+        length
+      case .empty(let length):
+        length
+      }
     }
   }
-
-  var fileId: Int {
-    switch self {
-    case .file(id: let id, length: _):
-      id
-    case .empty(length: _):
-      Int.min
-    }
-  }
-
-  var length: Int {
-    switch self {
-    case .file(_, let length):
-      length
-    case .empty(let length):
-      length
-    }
-  }
-}
 ```
 
 This meant that the input was an array of these `Descriptors`
@@ -58,44 +58,44 @@ This meant that the input was an array of these `Descriptors`
 I expanded my list into a list of numbers that matches the examples by using the `expanded` var on my type. Then I read from both ends of this list, if there was a space in the front, I appended the last value that was not a space in it's place. I didn't keep track of the spaces at the end, because they did not contribute to the checksum.
 
 ```swift
-func rearrange(_ input: Deque<Int>) -> [Int] {
-  var input = input
-  var accumulator: [Int] = []
-  while let f = input.popFirst() {
-    if f > Int.min {
-      accumulator.append(f)
-    } else if !input.isEmpty {
-      accumulator.append(input.popLast()!)
-      // Clear out spaces from the back
-      while !input.isEmpty, input.last! == Int.min {
-        input.removeLast()
+  func rearrange(_ input: Deque<Int>) -> [Int] {
+    var input = input
+    var accumulator: [Int] = []
+    while let f = input.popFirst() {
+      if f > Int.min {
+        accumulator.append(f)
+      } else if !input.isEmpty {
+        accumulator.append(input.popLast()!)
+        // Clear out spaces from the back
+        while !input.isEmpty, input.last! == Int.min {
+          input.removeLast()
+        }
+      } else {
+        continue
       }
-    } else {
-      continue
     }
-  }
 
-  return accumulator
-}
+    return accumulator
+  }
 ```
 
 I then had a simple function to calculate the checksum
 
 ```swift
-func checksum(_ input: [Int]) -> Int {
-    input.enumerated().map(*).reduce(0, +)
-  }
+  func checksum(_ input: [Int]) -> Int {
+      input.enumerated().map(*).reduce(0, +)
+    }
 ```
 
 and the entire solution was just putting these together:
 
 ```swift
-func part1() async throws -> Int {
-  let files = Deque(diskMap.flatMap(\.expanded))
-  let rearranged = rearrange(files)
+  func part1() async throws -> Int {
+    let files = Deque(diskMap.flatMap(\.expanded))
+    let rearranged = rearrange(files)
 
-  return checksum(rearranged)
-}
+    return checksum(rearranged)
+  }
 ```
 
 
@@ -110,56 +110,56 @@ I run through the fileIDs in reverse, I find the length of the block to move, an
 When the fileID becomes `1` I return the list since the `0` files are at the front by definition.
 
 ```swift
-unc defrag(_ input: [Descriptor]) -> [Descriptor] {
-  var input = input[...]
-  var highestIndex = input.last!.fileId
+  unc defrag(_ input: [Descriptor]) -> [Descriptor] {
+    var input = input[...]
+    var highestIndex = input.last!.fileId
 
-  while highestIndex > 0 {
-    guard let candidateIndex = input.firstIndex(where: { $0.fileId == highestIndex }) else { fatalError("We should have fileID \(highestIndex)") }
-    let candidateLength = input[candidateIndex].length
+    while highestIndex > 0 {
+      guard let candidateIndex = input.firstIndex(where: { $0.fileId == highestIndex }) else { fatalError("We should have fileID \(highestIndex)") }
+      let candidateLength = input[candidateIndex].length
 
-    guard let targetIndex = input.firstIndex(
-      where: { descriptor in
-        if case .empty(let length) = descriptor, length >= candidateLength {
-          true
-        } else {
-          false
+      guard let targetIndex = input.firstIndex(
+        where: { descriptor in
+          if case .empty(let length) = descriptor, length >= candidateLength {
+            true
+          } else {
+            false
+          }
         }
+      ),
+        targetIndex < candidateIndex
+      else {
+        highestIndex -= 1
+        continue
       }
-    ),
-      targetIndex < candidateIndex
-    else {
+
+      input.replaceSubrange(candidateIndex ... candidateIndex, with: [.empty(length: candidateLength)])
+      let targetLength = input[targetIndex].length
+      let newTarget = Descriptor.file(id: highestIndex, length: candidateLength)
+      if targetLength == candidateLength {
+        input.replaceSubrange(targetIndex ... targetIndex, with: [newTarget])
+      } else {
+        input.replaceSubrange(targetIndex ... targetIndex, with: [newTarget, .empty(length: targetLength - candidateLength)])
+      }
+
       highestIndex -= 1
-      continue
     }
 
-    input.replaceSubrange(candidateIndex ... candidateIndex, with: [.empty(length: candidateLength)])
-    let targetLength = input[targetIndex].length
-    let newTarget = Descriptor.file(id: highestIndex, length: candidateLength)
-    if targetLength == candidateLength {
-      input.replaceSubrange(targetIndex ... targetIndex, with: [newTarget])
-    } else {
-      input.replaceSubrange(targetIndex ... targetIndex, with: [newTarget, .empty(length: targetLength - candidateLength)])
-    }
-
-    highestIndex -= 1
+    return Array(input)
   }
-
-  return Array(input)
-}
 ```
 
 Once that is working, it's just a procedure to get the final result:
 
 ```swift
-func part2() async throws -> Int {
-  defrag(diskMap)
-    .flatMap(\.expanded)
-    .map { $0 > Int.min ? $0 : 0 }
-    .enumerated()
-    .map { $0 * $1 }
-    .reduce(0, +)
-}
+  func part2() async throws -> Int {
+    defrag(diskMap)
+      .flatMap(\.expanded)
+      .map { $0 > Int.min ? $0 : 0 }
+      .enumerated()
+      .map { $0 * $1 }
+      .reduce(0, +)
+  }
 ```
 
 And this still ran fairly quickly: in about 0.2s which is good enough.

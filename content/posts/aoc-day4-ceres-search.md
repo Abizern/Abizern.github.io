@@ -22,123 +22,123 @@ I used a simple search to get the positions of the Character "X" as a tuple, as 
 With an enum to specify directions as compass points: North, North East, West etc
 
 ```swift
-enum Direction: Equatable, CaseIterable {
-  case n, ne, e, se, s, sw, w, nw // Compass points
-}
+  enum Direction: Equatable, CaseIterable {
+    case n, ne, e, se, s, sw, w, nw // Compass points
+  }
 ```
 
 Then I created a type to represent candidates:
 
 ```swift
-struct Candidate {
-  let partial: String
-  let direction: Direction
-  let position: (Int, Int)
-  var isValid: Bool {
-    partial == "XMAS"
+  struct Candidate {
+    let partial: String
+    let direction: Direction
+    let position: (Int, Int)
+    var isValid: Bool {
+      partial == "XMAS"
+    }
   }
-}
 ```
 
 To start with, given a position for an "X" I created all possible candidates and put them in an array. This is what I meant when I said I took a graph theoretical approach, don't check the point, just add it to a list to check later. I did this with a method:
 
 ```swift
-struct Candidate {
-  // ...
-  static func initial(row: Int, col: Int) -> [Candidate] {
-    var accumulator = [Candidate]()
-    for direction in Direction.allCases {
-      accumulator.append(Candidate(partial: "X", direction: direction, position: (row, col)))
+  struct Candidate {
+    // ...
+    static func initial(row: Int, col: Int) -> [Candidate] {
+      var accumulator = [Candidate]()
+      for direction in Direction.allCases {
+        accumulator.append(Candidate(partial: "X", direction: direction, position: (row, col)))
+      }
+      return accumulator
     }
-    return accumulator
   }
-}
 ```
 
 Now I can use this to create an array of all the starting points with their directions to search.
 
 ```swift
-func countOccurrencesAround(_ position: (Int, Int), rows: [[Character]]) -> Int {
-  var count = 0
-  let dimensions = (width: rows[0].count, height: rows.count)
-  var candidates = Candidate.initial(row: position.0, col: position.1)[...]
+  func countOccurrencesAround(_ position: (Int, Int), rows: [[Character]]) -> Int {
+    var count = 0
+    let dimensions = (width: rows[0].count, height: rows.count)
+    var candidates = Candidate.initial(row: position.0, col: position.1)[...]
 
-  while let candidate = candidates.first {
-    var newCandidates = candidates.dropFirst()
-    if candidate.isValid {
-      count += 1
-      candidates = candidates.dropFirst()
-    } else {
-      if let next = candidate.next(rows: rows, dimensions: dimensions) {
-        newCandidates.append(next)
+    while let candidate = candidates.first {
+      var newCandidates = candidates.dropFirst()
+      if candidate.isValid {
+        count += 1
+        candidates = candidates.dropFirst()
+      } else {
+        if let next = candidate.next(rows: rows, dimensions: dimensions) {
+          newCandidates.append(next)
+        }
       }
+      candidates = newCandidates
     }
-    candidates = newCandidates
-  }
 
-  return count
-}
+    return count
+  }
 ```
 
 For each candidate in this list, if it is valid, I increment the count of found words. If it is not valid, I try to create a new candidate, by adding a value in the search direction to the list. This creation method is long winded, but it's easy to write by following a process:
 
 ```swift
-struct Candidate {
-  // ...
+  struct Candidate {
+    // ...
 
-  func next(rows: [[Character]], dimensions: (width: Int, height: Int)) -> Candidate? {
-    guard "XMAS".hasPrefix(partial) else { return nil }
+    func next(rows: [[Character]], dimensions: (width: Int, height: Int)) -> Candidate? {
+      guard "XMAS".hasPrefix(partial) else { return nil }
 
-    var newRow = position.0
-    var newCol = position.1
-    switch direction {
-    case .n:
-      guard position.0 > 0
-      else { return nil }
-      newRow = position.0 - 1
-    case .ne:
-      guard position.0 > 0,
-            position.1 < dimensions.height - 1
-      else { return nil }
-      newRow = position.0 - 1
-      newCol = position.1 + 1
-    case .e:
-      guard position.1 < dimensions.width - 1
-      else { return nil }
-      newCol = position.1 + 1
-    case .se:
-      guard position.0 < dimensions.width - 1,
-            position.1 < dimensions.height - 1
-      else { return nil }
-      newRow = position.0 + 1
-      newCol = position.1 + 1
-    case .s:
-      guard position.0 < dimensions.height - 1
-      else { return nil }
-      newRow = position.0 + 1
-    case .sw:
-      guard position.0 < dimensions.width - 1,
-            position.1 > 0
-      else { return nil }
-      newRow = position.0 + 1
-      newCol = position.1 - 1
-    case .w:
-      guard position.1 > 0
-      else { return nil }
-      newCol = position.1 - 1
-    case .nw:
-      guard position.0 > 0,
-            position.1 > 0
-      else { return nil }
-      newRow = position.0 - 1
-      newCol = position.1 - 1
+      var newRow = position.0
+      var newCol = position.1
+      switch direction {
+      case .n:
+        guard position.0 > 0
+        else { return nil }
+        newRow = position.0 - 1
+      case .ne:
+        guard position.0 > 0,
+              position.1 < dimensions.height - 1
+        else { return nil }
+        newRow = position.0 - 1
+        newCol = position.1 + 1
+      case .e:
+        guard position.1 < dimensions.width - 1
+        else { return nil }
+        newCol = position.1 + 1
+      case .se:
+        guard position.0 < dimensions.width - 1,
+              position.1 < dimensions.height - 1
+        else { return nil }
+        newRow = position.0 + 1
+        newCol = position.1 + 1
+      case .s:
+        guard position.0 < dimensions.height - 1
+        else { return nil }
+        newRow = position.0 + 1
+      case .sw:
+        guard position.0 < dimensions.width - 1,
+              position.1 > 0
+        else { return nil }
+        newRow = position.0 + 1
+        newCol = position.1 - 1
+      case .w:
+        guard position.1 > 0
+        else { return nil }
+        newCol = position.1 - 1
+      case .nw:
+        guard position.0 > 0,
+              position.1 > 0
+        else { return nil }
+        newRow = position.0 - 1
+        newCol = position.1 - 1
+      }
+
+      let value = rows[newRow][newCol]
+      let newPartial = partial + String(value)
+      return Candidate(partial: newPartial, direction: direction, position: (newRow, newCol))
     }
-
-    let value = rows[newRow][newCol]
-    let newPartial = partial + String(value)
-    return Candidate(partial: newPartial, direction: direction, position: (newRow, newCol))
   }
-}
 ```
 
 If the current partial string is not part of "XMAS" I return nil
@@ -168,29 +168,29 @@ And that's it for the first part.
 This is simpler than part 1. I followed a similar method to part 1 by first finding all the possible start positions --- an "A" character.
 
 ```swift
-func hasCross(_ position: (Int, Int), rows: [[Character]], dimensions: (width: Int, height: Int)) -> Bool {
-  let row = position.0
-  let col = position.1
-  var result = false
+  func hasCross(_ position: (Int, Int), rows: [[Character]], dimensions: (width: Int, height: Int)) -> Bool {
+    let row = position.0
+    let col = position.1
+    var result = false
 
-  guard (1 ..< dimensions.width - 1).contains(row),
-        (1 ..< dimensions.height - 1).contains(col)
-  else { return false }
+    guard (1 ..< dimensions.width - 1).contains(row),
+          (1 ..< dimensions.height - 1).contains(col)
+    else { return false }
 
-  let ne = rows[row + 1][col + 1]
-  let se = rows[row + 1][col - 1]
-  let sw = rows[row - 1][col - 1]
-  let nw = rows[row - 1][col + 1]
+    let ne = rows[row + 1][col + 1]
+    let se = rows[row + 1][col - 1]
+    let sw = rows[row - 1][col - 1]
+    let nw = rows[row - 1][col + 1]
 
-  switch (nw, se) {
-  case ("M", "S"):
-    if (sw == "M" && ne == "S") || (sw == "S" && ne == "M") { result = true }
-  case ("S", "M"):
-    if (sw == "M" && ne == "S") || (sw == "S" && ne == "M") { result = true }
-  default: result = false
+    switch (nw, se) {
+    case ("M", "S"):
+      if (sw == "M" && ne == "S") || (sw == "S" && ne == "M") { result = true }
+    case ("S", "M"):
+      if (sw == "M" && ne == "S") || (sw == "S" && ne == "M") { result = true }
+    default: result = false
+    }
+    return result
   }
-  return result
-}
 ```
 
 First, I make sure that the start position is at least one row and column in from the edge, and then I check the diagonally opposite corners. If one contains M the other must contain an S and vice-versa, I do this for both sets of corners, and if both checks pass then the position has a valid "X-MAS"
@@ -198,15 +198,15 @@ First, I make sure that the start position is at least one row and column in fro
 To get the solution I map this function onto the list of start points, filter them for validity and return the count.
 
 ```swift
-func countCrosses(_ rows: [[Character]]) -> Int {
-  let dimensions = (width: rows[0].count, height: rows.count)
-  let starts = findStarts("A", rows: rows)
-  let count = starts.map {
-    hasCross($0, rows: rows, dimensions: dimensions)
-  }.filter { $0 }.count
+  func countCrosses(_ rows: [[Character]]) -> Int {
+    let dimensions = (width: rows[0].count, height: rows.count)
+    let starts = findStarts("A", rows: rows)
+    let count = starts.map {
+      hasCross($0, rows: rows, dimensions: dimensions)
+    }.filter { $0 }.count
 
-  return count
-}
+    return count
+  }
 ```
 
 

@@ -20,17 +20,17 @@ I used the `adjacentPairs()` method from the Swift-Algorithms package{{<sidenote
 After checking whether the differences should be increasing or decreasing, I made sure that all the pairs satisfied the condition by using the `allSatisfy()` method.
 
 ```swift
-func isSafe(_ report: [Int]) -> Bool {
-  guard let start = report.first,
-        let end = report.last,
-        start != end
-  else { return false }
-  let shouldIncrease = start < end ? true : false
+  func isSafe(_ report: [Int]) -> Bool {
+    guard let start = report.first,
+          let end = report.last,
+          start != end
+    else { return false }
+    let shouldIncrease = start < end ? true : false
 
-  return report.adjacentPairs().allSatisfy { a, b in
-    (shouldIncrease ? a < b : a > b) && (1 ... 3).contains(abs(a - b))
+    return report.adjacentPairs().allSatisfy { a, b in
+      (shouldIncrease ? a < b : a > b) && (1 ... 3).contains(abs(a - b))
+    }
   }
-}
 ```
 
 I used this to filter and count the input to get my answer.
@@ -43,21 +43,21 @@ To check if a report is correctable, see if removing a single number from the li
 If a report is not safe, I removed one of the numbers and checked again:
 
 ```nil
-func isSafeOrCorrectable(_ report: [Int]) -> Bool {
-  guard !isSafe(report) else { return true }
-  let length = report.count
-  var i = 0
-  var correctable = false
+  func isSafeOrCorrectable(_ report: [Int]) -> Bool {
+    guard !isSafe(report) else { return true }
+    let length = report.count
+    var i = 0
+    var correctable = false
 
-  while i < length, !correctable {
-    var arr = report
-    arr.remove(at: i)
-    correctable = isSafe(arr)
-    i += 1
+    while i < length, !correctable {
+      var arr = report
+      arr.remove(at: i)
+      correctable = isSafe(arr)
+      i += 1
+    }
+
+    return correctable
   }
-
-  return correctable
-}
 ```
 
 And, again, a filter and count gives me the answer.

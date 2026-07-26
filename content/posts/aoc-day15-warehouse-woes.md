@@ -24,44 +24,44 @@ A couple of things to note: Firstly, because the map is surrounded by walls, che
 There really isn't much to this. I ended up with a recursive function:
 
 ```swift
-func move(
-  _ state: ((Int, Int), [[Character]]),
-  dir: Character,
-  tip: (Int, Int)? = nil,
-  boxes: [(Int, Int)] = []
-) -> ((Int, Int), [[Character]]) {
-  var ((r, c), rows) = state
+  func move(
+    _ state: ((Int, Int), [[Character]]),
+    dir: Character,
+    tip: (Int, Int)? = nil,
+    boxes: [(Int, Int)] = []
+  ) -> ((Int, Int), [[Character]]) {
+    var ((r, c), rows) = state
 
-  let dr: Int
-  let dc: Int
+    let dr: Int
+    let dc: Int
 
-  switch dir {
-  case "^": (dr, dc) = (-1, 0)
-  case ">": (dr, dc) = (0, 1)
-  case "v": (dr, dc) = (1, 0)
-  case "<": (dr, dc) = (0, -1)
-  default: fatalError("Unknown direction \(dir)")
-  }
-
-  let (nr, nc) = tip ?? (r + dr, c + dc)
-  let candidate = rows[nr][nc]
-
-  if candidate == "#" {
-    return state
-  } else if candidate == "." {
-    for box in boxes {
-      rows[box.0 + dr][box.1 + dc] = "O"
+    switch dir {
+    case "^": (dr, dc) = (-1, 0)
+    case ">": (dr, dc) = (0, 1)
+    case "v": (dr, dc) = (1, 0)
+    case "<": (dr, dc) = (0, -1)
+    default: fatalError("Unknown direction \(dir)")
     }
-    rows[r][c] = "."
-    (r, c) = (r + dr, c + dc)
-    rows[r][c] = "@"
-    return ((r, c), rows)
-  } else { // candidate = "O"
-    let newTip = (nr + dr, nc + dc)
-    let newBoxes = boxes + [(nr, nc)]
-    return move(state, dir: dir, tip: newTip, boxes: newBoxes)
+
+    let (nr, nc) = tip ?? (r + dr, c + dc)
+    let candidate = rows[nr][nc]
+
+    if candidate == "#" {
+      return state
+    } else if candidate == "." {
+      for box in boxes {
+        rows[box.0 + dr][box.1 + dc] = "O"
+      }
+      rows[r][c] = "."
+      (r, c) = (r + dr, c + dc)
+      rows[r][c] = "@"
+      return ((r, c), rows)
+    } else { // candidate = "O"
+      let newTip = (nr + dr, nc + dc)
+      let newBoxes = boxes + [(nr, nc)]
+      return move(state, dir: dir, tip: newTip, boxes: newBoxes)
+    }
   }
-}
 ```
 
 I keep track of the tip of my search path, in whatever direction I am going and there are three conditions:
@@ -82,86 +82,86 @@ With a bigger map, and a different way of handling boxes.
 Horizontal moves are handled almost exactly the same way as with part 1, except now I keep track of the character than I am moving as well as its position.
 
 ```swift
-func moveHorizontally(_ state: (Cell, [[Character]]), hOffset: Int, nextPos: Cell, boxes: [Cell: Character]) -> (Cell, [[Character]]) {
-  var (robot, rows) = state
-  var boxes = boxes
-  let candidate = rows[nextPos.row][nextPos.col]
+  func moveHorizontally(_ state: (Cell, [[Character]]), hOffset: Int, nextPos: Cell, boxes: [Cell: Character]) -> (Cell, [[Character]]) {
+    var (robot, rows) = state
+    var boxes = boxes
+    let candidate = rows[nextPos.row][nextPos.col]
 
-  guard candidate != "#" else {
-    return state
-  }
-
-  if candidate == "." {
-    for (key, value) in boxes {
-      rows[key.row][key.col + hOffset] = value
+    guard candidate != "#" else {
+      return state
     }
-    rows[robot.row][robot.col] = "."
 
-    rows[robot.row][robot.col + hOffset] = "@"
-    return (Cell(robot.row, robot.col + hOffset), rows)
+    if candidate == "." {
+      for (key, value) in boxes {
+        rows[key.row][key.col + hOffset] = value
+      }
+      rows[robot.row][robot.col] = "."
+
+      rows[robot.row][robot.col + hOffset] = "@"
+      return (Cell(robot.row, robot.col + hOffset), rows)
+    }
+
+    if candidate == "[" || candidate == "]" {
+      boxes[nextPos] = candidate
+      let newNextPos = Cell((nextPos.row, nextPos.col + hOffset))
+
+      return moveHorizontally(state, hOffset: hOffset, nextPos: newNextPos, boxes: boxes)
+    }
+
+    fatalError("We should have handled something by now.")
   }
-
-  if candidate == "[" || candidate == "]" {
-    boxes[nextPos] = candidate
-    let newNextPos = Cell((nextPos.row, nextPos.col + hOffset))
-
-    return moveHorizontally(state, hOffset: hOffset, nextPos: newNextPos, boxes: boxes)
-  }
-
-  fatalError("We should have handled something by now.")
-}
 ```
 
 For vertical moves I have to handle things a little differently: Rather than a single point being the "tip" of the search, it can be a row, which is everything connected to the robot.
 
 ```swift
-func moveVertically(_ state: (Cell, [[Character]]), vOffset: Int, nextPos: [Cell], boxes: [Cell: Character]) -> (Cell, [[Character]]) {
-  var (robot, rows) = state
-  var boxes = boxes
-  let candidates = nextPos.map { rows[$0.row][$0.col] }
+  func moveVertically(_ state: (Cell, [[Character]]), vOffset: Int, nextPos: [Cell], boxes: [Cell: Character]) -> (Cell, [[Character]]) {
+    var (robot, rows) = state
+    var boxes = boxes
+    let candidates = nextPos.map { rows[$0.row][$0.col] }
 
-  if candidates.contains("#") {
-    return state
-  }
-
-  if candidates.allSatisfy({ $0 == "." }) {
-    for (key, _) in boxes {
-      rows[key.row][key.col] = "."
-    }
-    for (key, value) in boxes {
-      rows[key.row + vOffset][key.col] = value
-    }
-    rows[robot.row][robot.col] = "."
-    rows[robot.row + vOffset][robot.col] = "@"
-    return (Cell(robot.row + vOffset, robot.col), rows)
-  }
-
-  if candidates.contains("[") || candidates.contains("]") {
-    var candidateBoxes = nextPos.map { ($0, rows[$0.row][$0.col]) }.sorted { $0.0.col < $1.0.col }
-
-    if let lst = candidateBoxes.last, lst.1 == "[" {
-      let (rightRow, rightCol) = (lst.0.row, lst.0.col + 1)
-      candidateBoxes.append((Cell((rightRow, rightCol)), rows[rightRow][rightCol]))
+    if candidates.contains("#") {
+      return state
     }
 
-    if let fst = candidateBoxes.first, fst.1 == "]" {
-      let (leftRow, leftCol) = (fst.0.row, fst.0.col - 1)
-      candidateBoxes.append((Cell((leftRow, leftCol)), rows[leftRow][leftCol]))
-    }
-
-    var newNextPos: [Cell] = []
-    for (cell, value) in candidateBoxes {
-      if value == "[" || value == "]" {
-        boxes[cell] = value
-        newNextPos.append(Cell((cell.row + vOffset, cell.col)))
+    if candidates.allSatisfy({ $0 == "." }) {
+      for (key, _) in boxes {
+        rows[key.row][key.col] = "."
       }
+      for (key, value) in boxes {
+        rows[key.row + vOffset][key.col] = value
+      }
+      rows[robot.row][robot.col] = "."
+      rows[robot.row + vOffset][robot.col] = "@"
+      return (Cell(robot.row + vOffset, robot.col), rows)
     }
 
-    return moveVertically(state, vOffset: vOffset, nextPos: newNextPos, boxes: boxes)
-  }
+    if candidates.contains("[") || candidates.contains("]") {
+      var candidateBoxes = nextPos.map { ($0, rows[$0.row][$0.col]) }.sorted { $0.0.col < $1.0.col }
 
-  fatalError("We should have matched something by now")
-}
+      if let lst = candidateBoxes.last, lst.1 == "[" {
+        let (rightRow, rightCol) = (lst.0.row, lst.0.col + 1)
+        candidateBoxes.append((Cell((rightRow, rightCol)), rows[rightRow][rightCol]))
+      }
+
+      if let fst = candidateBoxes.first, fst.1 == "]" {
+        let (leftRow, leftCol) = (fst.0.row, fst.0.col - 1)
+        candidateBoxes.append((Cell((leftRow, leftCol)), rows[leftRow][leftCol]))
+      }
+
+      var newNextPos: [Cell] = []
+      for (cell, value) in candidateBoxes {
+        if value == "[" || value == "]" {
+          boxes[cell] = value
+          newNextPos.append(Cell((cell.row + vOffset, cell.col)))
+        }
+      }
+
+      return moveVertically(state, vOffset: vOffset, nextPos: newNextPos, boxes: boxes)
+    }
+
+    fatalError("We should have matched something by now")
+  }
 ```
 
 I have to handle the ends of this row a little differently since boxes are in two parts. That's what the sorting and checking code is. I sort my list of moving candidates, if the leftmost point is "]" I know there is a "[" to it's left, and if there is a "[" at the right, then there is a "]" one cell over.
@@ -173,26 +173,26 @@ Another difference is that I over wrote every visited tile with "." before movin
 I then run these two recursive functions from a single non-recursive function:
 
 ```swift
-func wideMove(_ state: (Cell, [[Character]]), dir: Character) -> (Cell, [[Character]]) {
-  let (r, c) = (state.0.row, state.0.col)
+  func wideMove(_ state: (Cell, [[Character]]), dir: Character) -> (Cell, [[Character]]) {
+    let (r, c) = (state.0.row, state.0.col)
 
-  switch dir {
-  case "^":
-    let vOffset = -1
-    return moveVertically(state, vOffset: vOffset, nextPos: [Cell((r + vOffset, c))], boxes: [:])
-  case "v":
-    let vOffset = 1
-    return moveVertically(state, vOffset: vOffset, nextPos: [Cell((r + vOffset, c))], boxes: [:])
-  case ">":
-    let hOffset = 1
-    return moveHorizontally(state, hOffset: hOffset, nextPos: Cell((r, c + hOffset)), boxes: [:])
-  case "<":
-    let hOffset = -1
-    return moveHorizontally(state, hOffset: hOffset, nextPos: Cell((r, c + hOffset)), boxes: [:])
-  default:
-    fatalError("Unknown direction \(dir)")
+    switch dir {
+    case "^":
+      let vOffset = -1
+      return moveVertically(state, vOffset: vOffset, nextPos: [Cell((r + vOffset, c))], boxes: [:])
+    case "v":
+      let vOffset = 1
+      return moveVertically(state, vOffset: vOffset, nextPos: [Cell((r + vOffset, c))], boxes: [:])
+    case ">":
+      let hOffset = 1
+      return moveHorizontally(state, hOffset: hOffset, nextPos: Cell((r, c + hOffset)), boxes: [:])
+    case "<":
+      let hOffset = -1
+      return moveHorizontally(state, hOffset: hOffset, nextPos: Cell((r, c + hOffset)), boxes: [:])
+    default:
+      fatalError("Unknown direction \(dir)")
+    }
   }
-}
 ```
 
 And that was it.
