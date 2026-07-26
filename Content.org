@@ -1,3 +1,7 @@
+# Regenerate posts from this file:
+#   C-c C-e H H  export the current subtree only (org-hugo-export-wim-to-md)
+#   C-c C-e H A  regenerate the whole site (org-hugo-export-wim-to-md :all-subtrees)
+
 #+HUGO_BASE_DIR: ./
 #+options: author:nil
 #+MACRO: marginnote @@html:{{<marginnote>}}$1{{</marginnote>}}@@
@@ -5,7 +9,7 @@
 #+MACRO: newthought @@html:{{<newthought>}}$1{{</newthought>}}@@
 
 # These are mostly used in the Talks section
-#+MACRO: speakerdeck @@html:{{<marginnote>}}[Slides on Speaker Deck]($1){{</marginnote>}}@@
+#+MACRO: speakerdeck @@html:{{<marginnote>}}[Slides on Speaker Deck](https://speakerdeck.com/abizern/$1){{</marginnote>}}@@
 #+MACRO: skillsmatter @@html:{{<marginnote>}}[Video at Skills Matter]($1) (free login required){{</marginnote>}}@@
 #+MACRO: youtube @@html:{{<marginnote>}}[Video on YouTube]($1){{</marginnote>}}@@
 
@@ -2835,32 +2839,32 @@ Some of the presentations I have made at conferences and developer meet-ups over
 ** Pull Requests are a Language
 /iOSCon, London, 22nd March 2018/
 
-Move beyond "LGTM". Pull Requests{{{speakerdeck(https://speakerdeck.com/abizern/pull-requests-are-a-language)}}}{{{skillsmatter(https://skillsmatter.com/skillscasts/11710-lightning-talk-pull-requests-are-language#video)}}} can be a way for teams to communicate more than just changes in a codebase.
+Move beyond "LGTM". Pull Requests{{{speakerdeck(pull-requests-are-a-language)}}}{{{skillsmatter(https://skillsmatter.com/skillscasts/11710-lightning-talk-pull-requests-are-language#video)}}} can be a way for teams to communicate more than just changes in a codebase.
 
 ** The Road to Damascus, or FRP and Me
 /NSSpain, Logroño, 14th September 2017/
 
-A talk{{{speakerdeck(https://speakerdeck.com/abizern/the-road-to-damascus-or-frp-and-me)}}}{{{marginnote([Video on NSSpain's Vimeo](https://vimeo.com/235050604))}}} given at NSSpain about my experiences of looking into using Functional Reactive Programming with RxSwift.
+A talk{{{speakerdeck(the-road-to-damascus-or-frp-and-me)}}}{{{marginnote([Video on NSSpain's Vimeo](https://vimeo.com/235050604))}}} given at NSSpain about my experiences of looking into using Functional Reactive Programming with RxSwift.
 
 ** Be Your Own Backend Developer
 /Code Mobile, Chester, 18th April 2017/
 
-An overview{{{speakerdeck(https://speakerdeck.com/abizern/be-your-own-backend-developer)}}} of Server Side Swift. This was recorded, but unfortunately the video isn't available.
+An overview{{{speakerdeck(be-your-own-backend-developer)}}} of Server Side Swift. This was recorded, but unfortunately the video isn't available.
 
 ** Safer Programming with Types
 /Swift London, London, 25th October, 2016/
 
-A short{{{speakerdeck(https://speakerdeck.com/abizern/safer-programming-with-types)}}}{{{youtube(https://www.youtube.com/watch?v=uR6ox-9VPAA&t=1s)}}} talk about type safety presented at the Swift London meetup.
+A short{{{speakerdeck(safer-programming-with-types)}}}{{{youtube(https://www.youtube.com/watch?v=uR6ox-9VPAA&t=1s)}}} talk about type safety presented at the Swift London meetup.
 
 ** Core Data: It's not Dead Yet
 /FrenchKit, Paris, 23rd September 2016/
 
-I spoke{{{speakerdeck(https://speakerdeck.com/abizern/core-data-its-not-dead-yet)}}}{{{youtube(https://youtu.be/iOdg7WOEWWE)}}} at the first FrenchKit (now known as Swift Connection) conference about how Core Data is still relevant in the age of Swift.
+I spoke{{{speakerdeck(core-data-its-not-dead-yet)}}}{{{youtube(https://youtu.be/iOdg7WOEWWE)}}} at the first FrenchKit (now known as Swift Connection) conference about how Core Data is still relevant in the age of Swift.
 
 ** Being Imperfect in a Perfect World
 /NSBarcelona, Barcelona, 21st September 2016/
 
-I spoke{{{speakerdeck(https://speakerdeck.com/abizern/being-imperfect-in-a-perfect-world)}}} at the NSBarcelona meetup about the choices we make about the patterns we use in development.
+I spoke{{{speakerdeck(being-imperfect-in-a-perfect-world)}}} at the NSBarcelona meetup about the choices we make about the patterns we use in development.
 
 ** AltConf Post-WWDC Panel
 /AltConf, San Franciso, June 2016/
@@ -2875,29 +2879,29 @@ I{{{youtube(https://www.youtube.com/watch?v=PK1PPNTmGuw)}}} was a panel member f
 ** Dependency Management with Carthage
 /CocoaHeads Stockholm, Stockholm, May 2016/
 
-An updated{{{speakerdeck(https://speakerdeck.com/abizern/dependency-management-with-carthage)}}}{{{marginnote([Video on Vimeo](https://vimeo.com/album/3943556/video/165920026))}}} and expanded version of my previous talk about using Carthage for dependency management.
+An updated{{{speakerdeck(dependency-management-with-carthage)}}}{{{marginnote([Video on Vimeo](https://vimeo.com/album/3943556/video/165920026))}}} and expanded version of my previous talk about using Carthage for dependency management.
 
 ** Carthage
 /NSLondon, London, 30th July, 2015/
 
-A talk{{{speakerdeck(https://speakerdeck.com/abizern/carthage)}}} at NSLondon about using Carthage for dependency management.
+A talk{{{speakerdeck(carthage)}}} at NSLondon about using Carthage for dependency management.
 
 ** What Haskell Teaches me about Writing Swift
 /AltConf, San Francisco, June 2015/
 
-I had the{{{speakerdeck(https://speakerdeck.com/abizern/what-haskell-teaches-me-about-writing-swift)}}} opportunity to present a longer version of the lightning talk I gave at Swift Summit. These are my personal thoughts about writing Swift after knowing some Haskell.
+I had the{{{speakerdeck(what-haskell-teaches-me-about-writing-swift)}}} opportunity to present a longer version of the lightning talk I gave at Swift Summit. These are my personal thoughts about writing Swift after knowing some Haskell.
 
 This was recorded, but the video is no longer available.
 
 ** What Haskell Taught me about Swift
 /Swift Summit, London, 21st March 2015/
 
-A short talk{{{speakerdeck(https://speakerdeck.com/abizern/what-haskell-taught-me-about-writing-swift)}}} about how knowing Haskell helped me to better understand and learn Swift.
+A short talk{{{speakerdeck(what-haskell-taught-me-about-writing-swift)}}} about how knowing Haskell helped me to better understand and learn Swift.
 
 ** Fizz Buzz in Swift
 /NSLondon, London, 14th August 2014/
 
-A talk{{{speakerdeck(https://speakerdeck.com/abizern/fizzbuzz-in-swift-a-talk-with-3-codas)}}} I gave about different approaches to solving the Fizz Buzz problem in in Swift, along with some thoughts about the new language.
+A talk{{{speakerdeck(fizzbuzz-in-swift-a-talk-with-3-codas)}}} I gave about different approaches to solving the Fizz Buzz problem in in Swift, along with some thoughts about the new language.
 
 This was my first mention in iOSDevWeekly.{{{sidenote([Issue 167](https://iosdevweekly.com/issues/167))}}}
 
@@ -2905,7 +2909,7 @@ This was my first mention in iOSDevWeekly.{{{sidenote([Issue 167](https://iosdev
 ** Adding 3rd Party Code to your Project
 /iOSCon 2014, London, 15th May 2014/
 
-I spoke at the first edition of iOSCon{{{speakerdeck(https://speakerdeck.com/abizern/adding-3rd-party-code-to-xcode-projects)}}}{{{skillsmatter(https://skillsmatter.com/skillscasts/5058-third-party-code)}}} covering the usage of Git and CocoaPods for adding dependencies to an Xcode project
+I spoke at the first edition of iOSCon{{{speakerdeck(adding-3rd-party-code-to-xcode-projects)}}}{{{skillsmatter(https://skillsmatter.com/skillscasts/5058-third-party-code)}}} covering the usage of Git and CocoaPods for adding dependencies to an Xcode project
 
 ** Distributed Version Control at LiDG 
 /LiDG, London, October 2010/
