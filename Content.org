@@ -2,6 +2,7 @@
 #+options: author:nil
 #+MACRO: marginnote @@html:{{<marginnote>}}$1{{</marginnote>}}@@
 #+MACRO: sidenote @@html:{{<sidenote>}}$1{{</sidenote>}}@@
+#+MACRO: newthought @@html:{{<newthought>}}$1{{</newthought>}}@@
 
 # These are mostly used in the Talks section
 #+MACRO: speakerdeck @@html:{{<marginnote>}}[Slides on Speaker Deck]($1){{</marginnote>}}@@
