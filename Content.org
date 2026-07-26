@@ -24,7 +24,7 @@ After spending far too long yesterday unsuccessfully trying to get my head aroun
 *** Part 1
 We are given a list of numbers and a transformation to apply to them.
 
-It's a simple enough process and careful reading let's it be written directly.
+It's a simple enough process and careful reading lets it be written directly.
 
 #+begin_src swift
   func mix(_ number: Int, _ secretNumber: Int) -> Int {
@@ -49,7 +49,7 @@ I wrote functions for the =mix= and =prune= transformation, and a =next= functio
 Then I wrote a function that returns a function that takes a number and transforms it the given number of times. I find it easier to write function returning functions when they are used with =map= operations.
 
 #+begin_src swift
-  func evolvutionFunction(n: Int) -> (Int) -> Int {
+  func evolutionFunction(n: Int) -> (Int) -> Int {
     { secretNumber in
       var num = secretNumber
       for _ in 0 ..< n {
@@ -65,7 +65,7 @@ And then put it all together.
 
 #+begin_src swift
   func part1() async throws -> Int {
-    rows.map(evolvutionFunction(n: 2000)).reduce(0, +)
+    rows.map(evolutionFunction(n: 2000)).reduce(0, +)
   }
 #+end_src
 
