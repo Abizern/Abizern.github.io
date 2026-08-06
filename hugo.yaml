@@ -2,7 +2,7 @@ baseurl: "https://abizern.dev"
 title: "abizern.dev"
 subtitle: "I'm just this guy, you know?"
 theme: hugo-tufte
-languageCode: en-GB
+locale: en-GB
 # If you write Chinese, Japanese or Korean, this helps with word counting
 hasCJKLanguage: true
 timeZone: Europe/London
