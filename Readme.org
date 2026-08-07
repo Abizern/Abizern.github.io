@@ -36,17 +36,25 @@ Since everything is generated from =Content.org=, that's the file to open in Ema
 - =C-c C-e H H= exports only the current subtree (=org-hugo-export-wim-to-md=) --- not recommended for everyday use.
 - =C-c C-e H A= regenerates the whole site (=org-hugo-export-wim-to-md :all-subtrees=).
 
-Run =hugo server -D= to build and serve the site locally, including drafts, with hot reload.
+Run =make preview= to build and serve the site locally, including drafts, with hot reload.
 
 Note: KaTeX math rendering sometimes doesn't work locally in Safari --- check in Chrome instead, or restart the server. Restarting the server is also the fix if sidenotes get visually mangled during a hot reload.
 
 Don't be tempted to delete the =content= folder outside of the regeneration step below. The Github build runs Hugo but not the ox-hugo export, so only whatever Markdown is already committed there makes it into the site.
 
+** Makefile
+A =Makefile= wraps the common commands:
+
+- =make help= --- list the available commands.
+- =make preview= --- run the local preview server with drafts (=hugo server -D=).
+- =make build= --- delete the =public= folder and build the site with Hugo (=hugo --gc --minify=).
+- =make clean= --- delete the =content= and =public= folders.
+
 ** Theme
 Uses the hugo-tufte theme, included as a submodule of a fork so I'm not held hostage to the upstream repository. The Github fork links back to the original, so it can still be kept up to date.
 
 ** Deployment
-- Clear the =content= folder, then regenerate it from =Content.org= in Emacs with =C-c C-e H A=. Clearing first avoids stale files being left behind for posts that were renamed or removed.
+- Run =make clean= to clear the =content= and =public= folders, then regenerate content from =Content.org= in Emacs with =C-c C-e H A=. Clearing first avoids stale files being left behind for posts that were renamed or removed.
 - Commit the changes.
 - Push to Github. There is a workflow that rebuilds and redeploys the site whenever the =main= branch is updated.
   - This uses a small amount of Github Actions processing time --- comfortably within the free allowance, but worth keeping an eye on.

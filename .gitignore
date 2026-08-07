@@ -23,3 +23,6 @@ go.work
 # Generated Site output
 # It's best to regenerate it when needed
 public/
+
+# Hugo resource cache
+resources/_gen/
