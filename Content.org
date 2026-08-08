@@ -1,6 +1,9 @@
 # Regenerate posts from this file:
-#   C-c C-e H H  export the current subtree only (org-hugo-export-wim-to-md)
+#   C-c C-e H H  export the current subtree only (org-hugo-export-wim-to-md) - avoid this unless just testing previews
 #   C-c C-e H A  regenerate the whole site (org-hugo-export-wim-to-md :all-subtrees)
+
+# Add new Post with capture templates
+#   C-c c b t    Adds a new post drawer ready to be filled in.
 
 #+HUGO_BASE_DIR: ./
 #+options: author:nil
